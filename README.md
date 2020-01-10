@@ -1,4 +1,6 @@
 
+*This bundle is under development, more features will be added soon, and existing ones may change.*
+
 [![Latest Stable Version](https://poser.pugx.org/softspring/crudl-bundle/v/stable.svg)](https://packagist.org/packages/softspring/crudl-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/softspring/crudl-bundle/v/unstable.svg)](https://packagist.org/packages/softspring/crudl-bundle)
 [![License](https://poser.pugx.org/softspring/crudl-bundle/license.svg)](https://packagist.org/packages/softspring/crudl-bundle)
