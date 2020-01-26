@@ -3,12 +3,12 @@
     "description": "A CRUD+list helper bundle.",
     "license": "MIT",
     "require": {
-        "php": "^7.0"
+        "php": "^7.0",
+        "softspring/core-bundle": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "8.5.*",
         "doctrine/orm": "^2.5",
-        "softspring/core-bundle": "*",
         "symfony/console": "^3.0 || ^4.0 || ^5.0",
         "symfony/dependency-injection": "^3.0 || ^4.0 || ^5.0",
         "symfony/form": "^3.0 || ^4.0 || ^5.0",
