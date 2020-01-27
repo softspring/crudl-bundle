@@ -155,9 +155,12 @@ class CrudlController extends AbstractController
             throw $this->createNotFoundException('Entity not found');
         }
 
+        $deleteForm = $this->getDeleteForm($entity);
+
         // show view
         $viewData = new \ArrayObject([
             'entity' => $entity,
+            'deleteForm' => $deleteForm ? $deleteForm->createView() : null,
         ]);
 
         $this->dispatchFromConfig('read', 'view_event_name', new ViewEvent($viewData));
@@ -256,7 +259,7 @@ class CrudlController extends AbstractController
             return $response;
         }
 
-        $form = $this->createForm(get_class($this->deleteForm), $entity, ['method' => 'POST'])->handleRequest($request);
+        $form = $this->getDeleteForm($entity)->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
@@ -352,6 +355,20 @@ class CrudlController extends AbstractController
         } else {
             return $this->render($this->config['list']['view'], $viewData->getArrayCopy());
         }
+    }
+
+    /**
+     * @param object $entity
+     *
+     * @return FormInterface|null
+     */
+    protected function getDeleteForm($entity): ?FormInterface
+    {
+        if ($this->deleteForm instanceof EntityDeleteFormInterface) {
+            return $this->createForm(get_class($this->deleteForm), $entity, ['method' => 'POST']);
+        }
+
+        return null;
     }
 
     /**
