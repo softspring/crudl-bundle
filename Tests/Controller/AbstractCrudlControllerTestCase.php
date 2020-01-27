@@ -82,7 +82,7 @@ abstract class AbstractCrudlControllerTestCase extends TestCase
     protected function getControllerMock(array $config, array $onlyMethods = [], $listFilterForm = null, $createForm = null, $updateForm = null, $deleteForm = null)
     {
         $controller = $this->getMockBuilder(CrudlController::class)
-            ->setConstructorArgs([$this->manager, $this->dispatcher, $listFilterForm, $createForm, $updateForm, $deleteForm, $config])
+            ->setConstructorArgs([$this->manager, $listFilterForm, $createForm, $updateForm, $deleteForm, $config])
             ->onlyMethods($onlyMethods)
             ->getMock();
 

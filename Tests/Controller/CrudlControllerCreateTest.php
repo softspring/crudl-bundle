@@ -14,7 +14,7 @@ class CrudlControllerCreateTest extends AbstractCrudlControllerTestCase
 {
     public function testCreateEmptyConfiguration()
     {
-        $controller = new CrudlController($this->manager, $this->dispatcher);
+        $controller = new CrudlController($this->manager);
 
         $this->expectException(\InvalidArgumentException::class);
 
@@ -44,7 +44,7 @@ class CrudlControllerCreateTest extends AbstractCrudlControllerTestCase
             ],
         ];
 
-        $controller = new CrudlController($this->manager, $this->dispatcher, null,null,null,null, $config);
+        $controller = new CrudlController($this->manager, null,null,null,null, $config);
 
         $this->expectException(\InvalidArgumentException::class);
 

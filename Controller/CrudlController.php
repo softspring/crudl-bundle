@@ -385,6 +385,8 @@ class CrudlController extends AbstractController
                 return $response;
             }
         }
+
+        return null;
     }
 
     /**
