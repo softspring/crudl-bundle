@@ -5,6 +5,9 @@ namespace Softspring\CrudlBundle\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Trait CrudlEntityManagerTrait
+ */
 trait CrudlEntityManagerTrait
 {
     /**

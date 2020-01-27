@@ -4,6 +4,9 @@ namespace Softspring\CrudlBundle\Manager;
 
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Interface CrudlEntityManagerInterface
+ */
 interface CrudlEntityManagerInterface
 {
     /**
