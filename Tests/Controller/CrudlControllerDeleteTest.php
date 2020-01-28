@@ -19,7 +19,7 @@ class CrudlControllerDeleteTest extends AbstractCrudlControllerTestCase
 
         $this->expectException(\InvalidArgumentException::class);
 
-        $controller->delete('id', new Request());
+        $controller->delete(new Request([], [], ['entity' => 'id']));
     }
 
     public function testDeleteDenyUnlessGranted()
@@ -34,7 +34,7 @@ class CrudlControllerDeleteTest extends AbstractCrudlControllerTestCase
 
         $controller = $this->getControllerMock($config, ['denyAccessUnlessGranted']);
         $controller->expects($this->once())->method('denyAccessUnlessGranted')->willThrowException(new AccessDeniedException());
-        $controller->delete('id', new Request());
+        $controller->delete(new Request([], [], ['entity' => 'id']));
     }
 
     public function testDeleteWithNotFoundEntity()
@@ -51,7 +51,7 @@ class CrudlControllerDeleteTest extends AbstractCrudlControllerTestCase
 
         $this->expectException(NotFoundHttpException::class);
 
-        $controller->delete('id', new Request());
+        $controller->delete(new Request([], [], ['entity' => 'id']));
     }
 
     public function testDeleteWithNoForm()
@@ -68,7 +68,7 @@ class CrudlControllerDeleteTest extends AbstractCrudlControllerTestCase
 
         $this->expectException(\InvalidArgumentException::class);
 
-        $controller->delete('id', new Request());
+        $controller->delete(new Request([], [], ['entity' => 'id']));
     }
 
     public function testDeleteWithInitializeEventReturningResponse()
@@ -89,7 +89,7 @@ class CrudlControllerDeleteTest extends AbstractCrudlControllerTestCase
         $controller = $this->getControllerMock($config, ['dispatchGetResponse'], null, null, null, $deleteForm);
         $controller->expects($this->once())->method('dispatchGetResponse')->willReturn($expectedResponse);
 
-        $response = $controller->delete('id', new Request());
+        $response = $controller->delete(new Request([], [], ['entity' => 'id']));
 
         $this->assertEquals($expectedResponse, $response);
     }
@@ -117,7 +117,7 @@ class CrudlControllerDeleteTest extends AbstractCrudlControllerTestCase
         $controller = $this->getControllerMock($config, ['renderView'], null, null, null, $deleteForm);
         $controller->expects($this->once())->method('renderView')->willReturn($config['delete']['view']);
 
-        $response = $controller->delete('id', new Request());
+        $response = $controller->delete(new Request([], [], ['entity' => 'id']));
 
         $this->assertEquals($config['delete']['view'], $response->getContent());
     }
@@ -144,7 +144,7 @@ class CrudlControllerDeleteTest extends AbstractCrudlControllerTestCase
         $expectedResponse = new Response();
         $controller->expects($this->once())->method('dispatchGetResponse')->willReturn($expectedResponse);
 
-        $response = $controller->delete('id', new Request());
+        $response = $controller->delete(new Request([], [], ['entity' => 'id']));
         $this->assertEquals($expectedResponse, $response);
     }
 
@@ -170,7 +170,7 @@ class CrudlControllerDeleteTest extends AbstractCrudlControllerTestCase
         $expectedResponse = new Response();
         $controller->expects($this->once())->method('dispatchGetResponse')->willReturn($expectedResponse);
 
-        $response = $controller->delete('id', new Request());
+        $response = $controller->delete(new Request([], [], ['entity' => 'id']));
         $this->assertEquals($expectedResponse, $response);
     }
 
@@ -191,12 +191,12 @@ class CrudlControllerDeleteTest extends AbstractCrudlControllerTestCase
         $form->expects($this->once())->method('isSubmitted')->willReturn(true);
         $form->expects($this->once())->method('isValid')->willReturn(true);
 
-        $controller = $this->getControllerMock($config, ['dispatchGetResponse', 'remove'], null, null, null, $deleteForm);
+        $controller = $this->getControllerMock($config, ['dispatchGetResponse'], null, null, null, $deleteForm);
         $expectedResponse = new Response();
         $controller->expects($this->once())->method('dispatchGetResponse')->willReturn($expectedResponse);
-        $controller->expects($this->once())->method('remove');
+        $this->manager->expects($this->once())->method('deleteEntity');
 
-        $response = $controller->delete('id', new Request());
+        $response = $controller->delete(new Request([], [], ['entity' => 'id']));
         $this->assertEquals($expectedResponse, $response);
     }
 
@@ -218,12 +218,12 @@ class CrudlControllerDeleteTest extends AbstractCrudlControllerTestCase
         $form->expects($this->once())->method('isSubmitted')->willReturn(true);
         $form->expects($this->once())->method('isValid')->willReturn(true);
 
-        $controller = $this->getControllerMock($config, ['generateUrl', 'remove'], null, null, null, $deleteForm);
+        $controller = $this->getControllerMock($config, ['generateUrl'], null, null, null, $deleteForm);
         $controller->expects($this->once())->method('generateUrl')->with($this->equalTo('redirect_route'))->willReturn('/redirect/to/route');
-        $controller->expects($this->once())->method('remove');
+        $this->manager->expects($this->once())->method('deleteEntity');
 
         /** @var RedirectResponse $response */
-        $response = $controller->delete('id', new Request());
+        $response = $controller->delete(new Request([], [], ['entity' => 'id']));
         $this->assertInstanceOf(RedirectResponse::class, $response);
         $this->assertEquals('/redirect/to/route', $response->getTargetUrl());
     }
@@ -246,11 +246,11 @@ class CrudlControllerDeleteTest extends AbstractCrudlControllerTestCase
         $form->expects($this->once())->method('isSubmitted')->willReturn(true);
         $form->expects($this->once())->method('isValid')->willReturn(true);
 
-        $controller = $this->getControllerMock($config, ['remove'], null, null, null, $deleteForm);
-        $controller->expects($this->once())->method('remove');
+        $controller = $this->getControllerMock($config, [], null, null, null, $deleteForm);
+        $this->manager->expects($this->once())->method('deleteEntity');
 
         /** @var RedirectResponse $response */
-        $response = $controller->delete('id', new Request());
+        $response = $controller->delete(new Request([], [], ['entity' => 'id']));
         $this->assertInstanceOf(RedirectResponse::class, $response);
         $this->assertEquals('/', $response->getTargetUrl());
     }

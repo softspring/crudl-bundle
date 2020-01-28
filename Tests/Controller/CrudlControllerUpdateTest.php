@@ -19,7 +19,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
 
         $this->expectException(\InvalidArgumentException::class);
 
-        $controller->update('id', new Request());
+        $controller->update(new Request([], [], ['entity' => 'id']));
     }
 
     public function testUpdateDenyUnlessGranted()
@@ -34,7 +34,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
 
         $controller = $this->getControllerMock($config, ['denyAccessUnlessGranted']);
         $controller->expects($this->once())->method('denyAccessUnlessGranted')->willThrowException(new AccessDeniedException());
-        $controller->update('id', new Request());
+        $controller->update(new Request([], [], ['entity' => 'id']));
     }
 
     public function testUpdateWithNotFoundEntity()
@@ -51,7 +51,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
 
         $this->expectException(NotFoundHttpException::class);
 
-        $controller->update('id', new Request());
+        $controller->update(new Request([], [], ['entity' => 'id']));
     }
 
     public function testUpdateWithNoForm()
@@ -68,7 +68,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
 
         $this->expectException(\InvalidArgumentException::class);
 
-        $controller->update('id', new Request());
+        $controller->update(new Request([], [], ['entity' => 'id']));
     }
 
     public function testUpdateWithInitializeEventReturningResponse()
@@ -89,7 +89,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
         $controller = $this->getControllerMock($config, ['dispatchGetResponse'], null, null, $updateForm);
         $controller->expects($this->once())->method('dispatchGetResponse')->willReturn($expectedResponse);
 
-        $response = $controller->update('id', new Request());
+        $response = $controller->update(new Request([], [], ['entity' => 'id']));
 
         $this->assertEquals($expectedResponse, $response);
     }
@@ -117,7 +117,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
         $controller = $this->getControllerMock($config, ['renderView'], null, null, $updateForm);
         $controller->expects($this->once())->method('renderView')->willReturn($config['update']['view']);
 
-        $response = $controller->update('id', new Request());
+        $response = $controller->update(new Request([], [], ['entity' => 'id']));
 
         $this->assertEquals($config['update']['view'], $response->getContent());
     }
@@ -144,7 +144,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
         $expectedResponse = new Response();
         $controller->expects($this->once())->method('dispatchGetResponse')->willReturn($expectedResponse);
 
-        $response = $controller->update('id', new Request());
+        $response = $controller->update(new Request([], [], ['entity' => 'id']));
         $this->assertEquals($expectedResponse, $response);
     }
 
@@ -170,7 +170,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
         $expectedResponse = new Response();
         $controller->expects($this->once())->method('dispatchGetResponse')->willReturn($expectedResponse);
 
-        $response = $controller->update('id', new Request());
+        $response = $controller->update(new Request([], [], ['entity' => 'id']));
         $this->assertEquals($expectedResponse, $response);
     }
 
@@ -195,7 +195,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
         $expectedResponse = new Response();
         $controller->expects($this->once())->method('dispatchGetResponse')->willReturn($expectedResponse);
 
-        $response = $controller->update('id', new Request());
+        $response = $controller->update(new Request([], [], ['entity' => 'id']));
         $this->assertEquals($expectedResponse, $response);
     }
 
@@ -221,7 +221,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
         $controller->expects($this->once())->method('generateUrl')->with($this->equalTo('redirect_route'))->willReturn('/redirect/to/route');
 
         /** @var RedirectResponse $response */
-        $response = $controller->update('id', new Request());
+        $response = $controller->update(new Request([], [], ['entity' => 'id']));
         $this->assertInstanceOf(RedirectResponse::class, $response);
         $this->assertEquals('/redirect/to/route', $response->getTargetUrl());
     }
@@ -247,7 +247,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
         $controller = $this->getControllerMock($config, [], null, null, $updateForm);
 
         /** @var RedirectResponse $response */
-        $response = $controller->update('id', new Request());
+        $response = $controller->update(new Request([], [], ['entity' => 'id']));
         $this->assertInstanceOf(RedirectResponse::class, $response);
         $this->assertEquals('/', $response->getTargetUrl());
     }

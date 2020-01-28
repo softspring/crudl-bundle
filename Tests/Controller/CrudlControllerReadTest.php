@@ -16,7 +16,7 @@ class CrudlControllerReadTest extends AbstractCrudlControllerTestCase
 
         $this->expectException(\InvalidArgumentException::class);
 
-        $controller->read('id', new Request());
+        $controller->read(new Request([], [], ['entity' => 'id']));
     }
 
     public function testReadDenyUnlessGranted()
@@ -31,7 +31,8 @@ class CrudlControllerReadTest extends AbstractCrudlControllerTestCase
 
         $controller = $this->getControllerMock($config, ['denyAccessUnlessGranted']);
         $controller->expects($this->once())->method('denyAccessUnlessGranted')->willThrowException(new AccessDeniedException());
-        $controller->read('id', new Request());
+
+        $controller->read(new Request([], [], ['entity' => 'id']));
     }
 
     public function testReadWithNotFoundEntity()
@@ -49,7 +50,7 @@ class CrudlControllerReadTest extends AbstractCrudlControllerTestCase
 
         $this->expectException(NotFoundHttpException::class);
 
-        $controller->read('id', new Request());
+        $controller->read(new Request([], [], ['entity' => 'id']));
     }
 
     public function testReadWithInitializeEventReturningResponse()
@@ -68,7 +69,7 @@ class CrudlControllerReadTest extends AbstractCrudlControllerTestCase
         $controller = $this->getControllerMock($config, ['dispatchGetResponse']);
         $controller->expects($this->once())->method('dispatchGetResponse')->willReturn($expectedResponse);
 
-        $response = $controller->read('id', new Request());
+        $response = $controller->read(new Request([], [], ['entity' => 'id']));
 
         $this->assertEquals($expectedResponse, $response);
     }
@@ -90,7 +91,7 @@ class CrudlControllerReadTest extends AbstractCrudlControllerTestCase
         $controller = $this->getControllerMock($config, ['renderView']);
         $controller->expects($this->once())->method('renderView')->willReturn($config['read']['view']);
 
-        $response = $controller->read('id', new Request());
+        $response = $controller->read(new Request([], [], ['entity' => 'id']));
 
         $this->assertEquals($config['read']['view'], $response->getContent());
     }
