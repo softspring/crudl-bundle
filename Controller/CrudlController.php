@@ -71,6 +71,7 @@ class CrudlController extends AbstractController
         $this->updateForm = $updateForm;
         $this->deleteForm = $deleteForm;
         $this->config = $config;
+        $this->config['entity_attribute'] = $this->config['entity_attribute'] ?? 'entity';
     }
 
     /**
@@ -130,12 +131,13 @@ class CrudlController extends AbstractController
     }
 
     /**
-     * @param string $entity
      * @param Request $request
      * @return Response
      */
-    public function read(string $entity, Request $request): Response
+    public function read(Request $request): Response
     {
+        $entity = $request->attributes->get($this->config['entity_attribute']);
+
         if (empty($this->config['read'])) {
             throw new \InvalidArgumentException('Read action configuration is empty');
         }
@@ -159,7 +161,7 @@ class CrudlController extends AbstractController
 
         // show view
         $viewData = new \ArrayObject([
-            'entity' => $entity,
+            $this->config['entity_attribute'] => $entity,
             'deleteForm' => $deleteForm ? $deleteForm->createView() : null,
         ]);
 
@@ -169,12 +171,13 @@ class CrudlController extends AbstractController
     }
 
     /**
-     * @param string $entity
      * @param Request $request
      * @return Response
      */
-    public function update(string $entity, Request $request): Response
+    public function update(Request $request): Response
     {
+        $entity = $request->attributes->get($this->config['entity_attribute']);
+
         if (empty($this->config['update'])) {
             throw new \InvalidArgumentException('Update action configuration is empty');
         }
@@ -222,7 +225,7 @@ class CrudlController extends AbstractController
         // show view
         $viewData = new \ArrayObject([
             'form' => $form->createView(),
-            'entity' => $entity,
+            $this->config['entity_attribute'] => $entity,
         ]);
 
         $this->dispatchFromConfig('update', 'view_event_name', new ViewEvent($viewData));
@@ -231,12 +234,13 @@ class CrudlController extends AbstractController
     }
 
     /**
-     * @param string $entity
      * @param Request $request
      * @return Response
      */
-    public function delete(string $entity, Request $request): Response
+    public function delete(Request $request): Response
     {
+        $entity = $request->attributes->get($this->config['entity_attribute']);
+
         if (empty($this->config['delete'])) {
             throw new \InvalidArgumentException('Delete action configuration is empty');
         }
@@ -284,7 +288,7 @@ class CrudlController extends AbstractController
         // show view
         $viewData = new \ArrayObject([
             'form' => $form->createView(),
-            'entity' => $entity,
+            $this->config['entity_attribute'] => $entity,
         ]);
 
         $this->dispatchFromConfig('delete', 'view_event_name', new ViewEvent($viewData));
