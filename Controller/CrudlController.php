@@ -3,6 +3,7 @@
 namespace Softspring\CrudlBundle\Controller;
 
 use Jhg\DoctrinePagination\ORM\PaginatedRepositoryInterface;
+use Softspring\CoreBundle\Event\FormEvent;
 use Softspring\CoreBundle\Event\GetResponseEventInterface;
 use Softspring\CoreBundle\Event\GetResponseRequestEvent;
 use Softspring\CrudlBundle\Event\GetResponseEntityEvent;
@@ -99,6 +100,8 @@ class CrudlController extends AbstractController
         }
 
         $form = $this->createForm(get_class($this->createForm), $newEntity, ['method' => 'POST'])->handleRequest($request);
+
+        $this->dispatchFromConfig('create', 'form_init_event_name', new FormEvent($form, $request));
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
@@ -202,6 +205,8 @@ class CrudlController extends AbstractController
 
         $form = $this->createForm(get_class($this->updateForm), $entity, ['method' => 'POST'])->handleRequest($request);
 
+        $this->dispatchFromConfig('update', 'form_init_event_name', new FormEvent($form, $request));
+
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 if ($response = $this->dispatchGetResponseFromConfig('update', 'form_valid_event_name', new GetResponseFormEvent($form, $request))) {
@@ -264,6 +269,8 @@ class CrudlController extends AbstractController
         }
 
         $form = $this->getDeleteForm($entity)->handleRequest($request);
+
+        $this->dispatchFromConfig('delete', 'form_init_event_name', new FormEvent($form, $request));
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
