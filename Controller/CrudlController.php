@@ -4,6 +4,7 @@ namespace Softspring\CrudlBundle\Controller;
 
 use Jhg\DoctrinePagination\ORM\PaginatedRepositoryInterface;
 use Softspring\CoreBundle\Event\GetResponseEventInterface;
+use Softspring\CoreBundle\Event\GetResponseRequestEvent;
 use Softspring\CrudlBundle\Event\GetResponseEntityEvent;
 use Softspring\CrudlBundle\Event\GetResponseFormEvent;
 use Softspring\CrudlBundle\Form\EntityCreateFormInterface;
@@ -12,7 +13,6 @@ use Softspring\CrudlBundle\Form\EntityListFilterFormInterface;
 use Softspring\CrudlBundle\Form\EntityUpdateFormInterface;
 use Softspring\CrudlBundle\Manager\CrudlEntityManagerInterface;
 use Softspring\CoreBundle\Controller\AbstractController;
-use Softspring\CoreBundle\Event\GetResponseEvent;
 use Softspring\CoreBundle\Event\ViewEvent;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -147,7 +147,7 @@ class CrudlController extends AbstractController
             $this->denyAccessUnlessGranted($this->config['read']['is_granted'], $entity, sprintf('Access denied, user is not %s.', $this->config['read']['is_granted']));
         }
 
-        if ($response = $this->dispatchGetResponseFromConfig('read', 'initialize_event_name', new GetResponseEvent($request))) {
+        if ($response = $this->dispatchGetResponseFromConfig('read', 'initialize_event_name', new GetResponseRequestEvent($request))) {
             return $response;
         }
 
@@ -307,7 +307,7 @@ class CrudlController extends AbstractController
             $this->denyAccessUnlessGranted($this->config['list']['is_granted'], null, sprintf('Access denied, user is not %s.', $this->config['list']['is_granted']));
         }
 
-        if ($response = $this->dispatchGetResponseFromConfig('list', 'initialize_event_name', new GetResponseEvent($request))) {
+        if ($response = $this->dispatchGetResponseFromConfig('list', 'initialize_event_name', new GetResponseRequestEvent($request))) {
             return $response;
         }
 
