@@ -79,4 +79,17 @@ trait CrudlEntityManagerTrait
         $this->em->persist($entity);
         $this->em->flush();
     }
+
+    /**
+     * @param object $entity
+     */
+    public function deleteEntity($entity): void
+    {
+        if (!$this->getEntityClassReflection()->isInstance($entity)) {
+            throw new \InvalidArgumentException(sprintf('$entity must be an instance of %s', $this->getEntityClass()));
+        }
+
+        $this->em->remove($entity);
+        $this->em->flush();
+    }
 }

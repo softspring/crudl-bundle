@@ -267,7 +267,7 @@ class CrudlController extends AbstractController
                     return $response;
                 }
 
-                $this->remove($entity, null, true);
+                $this->manager->deleteEntity($entity);
 
                 if ($response = $this->dispatchGetResponseFromConfig('delete', 'success_event_name', new GetResponseEntityEvent($entity, $request))) {
                     return $response;

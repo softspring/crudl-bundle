@@ -45,4 +45,9 @@ interface CrudlEntityManagerInterface
      * @param object $entity
      */
     public function saveEntity($entity): void;
+
+    /**
+     * @param object $entity
+     */
+    public function deleteEntity($entity): void;
 }
