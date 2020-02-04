@@ -99,7 +99,8 @@ class CrudlController extends AbstractController
             return $response;
         }
 
-        $form = $this->createForm(get_class($this->createForm), $newEntity, ['method' => 'POST'])->handleRequest($request);
+        $formOptions = method_exists($this->createForm, 'formOptions') ? $this->createForm->formOptions($newEntity, $request) : ['method' => 'POST'];
+        $form = $this->createForm(get_class($this->createForm), $newEntity, $formOptions)->handleRequest($request);
 
         $this->dispatchFromConfig('create', 'form_init_event_name', new FormEvent($form, $request));
 
@@ -203,7 +204,8 @@ class CrudlController extends AbstractController
             return $response;
         }
 
-        $form = $this->createForm(get_class($this->updateForm), $entity, ['method' => 'POST'])->handleRequest($request);
+        $formOptions = method_exists($this->updateForm, 'formOptions') ? $this->updateForm->formOptions($entity, $request) : ['method' => 'POST'];
+        $form = $this->createForm(get_class($this->updateForm), $entity, $formOptions)->handleRequest($request);
 
         $this->dispatchFromConfig('update', 'form_init_event_name', new FormEvent($form, $request));
 
@@ -376,7 +378,9 @@ class CrudlController extends AbstractController
     protected function getDeleteForm($entity): ?FormInterface
     {
         if ($this->deleteForm instanceof EntityDeleteFormInterface) {
-            return $this->createForm(get_class($this->deleteForm), $entity, ['method' => 'POST']);
+            $formOptions = method_exists($this->deleteForm, 'formOptions') ? $this->deleteForm->formOptions($entity, null) : ['method' => 'POST'];
+
+            return $this->createForm(get_class($this->deleteForm), $entity, $formOptions);
         }
 
         return null;
