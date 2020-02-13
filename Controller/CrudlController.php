@@ -6,6 +6,7 @@ use Jhg\DoctrinePagination\ORM\PaginatedRepositoryInterface;
 use Softspring\CoreBundle\Event\FormEvent;
 use Softspring\CoreBundle\Event\GetResponseEventInterface;
 use Softspring\CoreBundle\Event\GetResponseRequestEvent;
+use Softspring\CrudlBundle\Event\FilterEvent;
 use Softspring\CrudlBundle\Event\GetResponseEntityEvent;
 use Softspring\CrudlBundle\Event\GetResponseFormEvent;
 use Softspring\CrudlBundle\Form\EntityCreateFormInterface;
@@ -346,6 +347,12 @@ class CrudlController extends AbstractController
             $form = null;
             $filters = [];
         }
+
+        $this->dispatchFromConfig('list', 'filter_event_name', $filterEvent = new FilterEvent($filters, $orderSort, $page, $rpp));
+        $filters = $filterEvent->getFilters();
+        $orderSort = $filterEvent->getOrderSort();
+        $page = $filterEvent->getPage();
+        $rpp = $filterEvent->getRpp();
 
         // get results
         if ($repo instanceof PaginatedRepositoryInterface) {
