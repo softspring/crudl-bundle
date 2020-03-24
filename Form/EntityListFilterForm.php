@@ -61,7 +61,7 @@ class EntityListFilterForm extends AbstractType implements EntityListFilterFormI
             return [$order => $sort];
         }
 
-        return [$request->query->get(self::getOrderFieldParamName(), 'id') => $request->query->get(self::getOrderDirectionParamName(), 'asc')];
+        return [$request->query->get(self::getOrderFieldParamName(), '') ?: 'id' => $request->query->get(self::getOrderDirectionParamName(), '') ?: 'asc'];
     }
 
 
