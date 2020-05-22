@@ -127,6 +127,7 @@ class CrudlController extends AbstractController
 
         // show view
         $viewData = new \ArrayObject([
+            $this->config['entity_attribute'] => $newEntity,
             'form' => $form->createView(),
         ]);
 
@@ -154,7 +155,7 @@ class CrudlController extends AbstractController
             $this->denyAccessUnlessGranted($this->config['read']['is_granted'], $entity, sprintf('Access denied, user is not %s.', $this->config['read']['is_granted']));
         }
 
-        if ($response = $this->dispatchGetResponseFromConfig('read', 'initialize_event_name', new GetResponseRequestEvent($request))) {
+        if ($response = $this->dispatchGetResponseFromConfig('read', 'initialize_event_name', new GetResponseEntityEvent($entity, $request))) {
             return $response;
         }
 
