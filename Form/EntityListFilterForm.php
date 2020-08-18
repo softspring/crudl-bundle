@@ -49,7 +49,7 @@ class EntityListFilterForm extends AbstractType implements EntityListFilterFormI
 
     public function getRpp(Request $request): int
     {
-        return 50;
+        return (int) $request->query->get(self::getRppParamName(), 50);
     }
 
     public function getOrder(Request $request): array
