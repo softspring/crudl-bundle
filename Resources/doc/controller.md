@@ -1,103 +1,4 @@
-# Configure
-
-## Create your Manager
-
-It's recommended to create an interface, especially if you are creating a bundle and you
-want to allow extending it.
-
-```php
-namespace App\Manager;
-
-use Softspring\CrudlBundle\Manager\CrudlEntityManagerInterface;
-
-interface ProductManagerInterface extends CrudlEntityManagerInterface
-{
-
-}
-```
-
-Create the manager:
-
-```php
-namespace App\Manager;
-
-use Doctrine\ORM\EntityManagerInterface;
-use Softspring\CrudlBundle\Manager\CrudlEntityManagerTrait;
-use App\Entity\Product;
-
-class ProductManager implements ProductManagerInterface
-{
-    use CrudlEntityManagerTrait;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
-    public function getTargetClass(): string
-    {
-        return Product::class;
-    }
-}
-```
-
-You can also extend the Softspring\CrudlBundle\Manager\DefaultCrudlEntityManager
-
-```php
-namespace App\Manager;
-
-use Softspring\CrudlBundle\Manager\DefaultCrudlEntityManager;
-
-class ProductManager extends DefaultCrudlEntityManager implements ProductManagerInterface
-{
-
-}
-```
-
-and configure the service:
-
-```yaml
-services:
-    App\Manager\ProductManagerInterface:
-      class: App\Manager\ProductManager
-      arguments:
-        $targetClass: 'App\Entity\Product'
-```
-
-**Using Doctrine target entities**
-
-If you are creating a model provider bundle, probably you will want to extend your model.
-
-CRUDL supports it in its managers.
-
-```yaml
-doctrine:
-    orm:
-        resolve_target_entities:
-            My\Bundle\Model\ExampleInterface: App\Entity\Example
-```
-
-This will be the service provided by your bundle:
-
-```yaml
-services:
-    My\Bundle\Manager\ExampleManagerInterface:
-      class: My\Bundle\Manager\ExampleManager
-      arguments:
-        $targetClass: 'My\Bundle\Model\ExampleInterface'
-```
-
-The manager will return the following values:
-
-- getTargetClass() => My\Bundle\Model\ExampleInterface
-- getEntityClass() => App\Entity\Example
-
-## Configure your controller
+# Configure your controller
 
 You need to configure your controller as a service.
 
@@ -127,33 +28,33 @@ services:
         ...
 ```
 
-### Controller configuration
+## General configuration
 
 ```yaml
-    $config:
-      entity_attribute: 'product'
+$config:
+  entity_attribute: 'product'
 ```
 
 This is used for route attribute and view data passing.
 
 If no entity_attribute is set, 'entity' name will be used.
 
-#### Create action configuration
+## Create action configuration
 
 This is the list action configuration reference:
 
 ```yaml
-    $config:
-        create:
-            is_granted: 'ROLE_ADMIN_PRODUCT_CREATE'
-            success_redirect_to: 'app_admin_product_list'
-            view: 'admin/products/create.html.twig'
-            initialize_event_name: 'product_admin.create.initialize'
-            form_init_event_name: 'product_admin.create.form_init'
-            form_valid_event_name: 'product_admin.create.form_valid'
-            success_event_name: 'product_admin.create.success'
-            form_invalid_event_name: 'product_admin.create.form_invalid'
-            view_event_name: 'product_admin.create.view'
+$config:
+    create:
+        is_granted: 'ROLE_ADMIN_PRODUCT_CREATE'
+        success_redirect_to: 'app_admin_product_list'
+        view: 'admin/products/create.html.twig'
+        initialize_event_name: 'product_admin.create.initialize'
+        form_init_event_name: 'product_admin.create.form_init'
+        form_valid_event_name: 'product_admin.create.form_valid'
+        success_event_name: 'product_admin.create.success'
+        form_invalid_event_name: 'product_admin.create.form_invalid'
+        view_event_name: 'product_admin.create.view'
 ```
 
 Main fields:
@@ -183,18 +84,18 @@ Events configuration:
   Dispatches Softspring\CoreBundle\Event\ViewEvent object
   Allows data adding for the view.
 
-#### Read action configuration
+## Read action configuration
 
 This is the list action configuration reference:
 
 ```yaml
-    $config:
-        read:
-          is_granted: 'ROLE_ADMIN_PRODUCT_READ'
-            param_converter_key: 'id'
-            view: 'admin/products/read.html.twig'
-            initialize_event_name: 'product_admin.read.initialize'
-            view_event_name: 'product_admin.read.view'
+$config:
+    read:
+      is_granted: 'ROLE_ADMIN_PRODUCT_READ'
+        param_converter_key: 'id'
+        view: 'admin/products/read.html.twig'
+        initialize_event_name: 'product_admin.read.initialize'
+        view_event_name: 'product_admin.read.view'
 ```
 
 Main fields:
@@ -211,67 +112,22 @@ Events configuration:
   Dispatches Softspring\CoreBundle\Event\ViewEvent object
   Allows data adding for the view.
 
-#### Update action configuration
+## Update action configuration
 
 This is the list action configuration reference:
 
 ```yaml
-    $config:
-        update:
-            is_granted: 'ROLE_ADMIN_PRODUCT_UPDATE'
-            success_redirect_to: 'app_admin_product_list'
-            view: 'admin/products/update.html.twig'
-            initialize_event_name: 'product_admin.update.initialize'
-            form_init_event_name: 'product_admin.update.form_init'
-            form_valid_event_name: 'product_admin.update.form_valid'
-            success_event_name: 'product_admin.update.success'
-            form_invalid_event_name: 'product_admin.update.form_invalid'
-            view_event_name: 'product_admin.update.view'
-```
-
-Main fields:
-
-- **is_granted**: (optional) role name to check at the begining
-- **view**: (required) the view path for rendering list
-- **success_redirect_to**: (optional) route name to redirect o success
-
-Events configuration:
-
-- **initialize_event_name**: (optional) event dispatched after checking is_granded and before form processing.
-  Dispatches Softspring\CoreBundle\Event\GetResponseRequestEvent object
-  It allows, for example, to redirect on custom situation.
-- **form_init_event_name**: (optional) event dispatched after form creation but before process it
-  Dispatches Softspring\CrudlBundle\Event\GetResponseEntityEvent object
-  It allows to modify form.
-- **form_valid_event_name**: (optional) dispatched on form submitted and valid
-  Dispatches Softspring\CrudlBundle\Event\GetResponseFormEvent object
-  It allows to modify model before saving it.
-- **success_event_name**: (optional)
-  Dispatches Softspring\CrudlBundle\Event\GetResponseEntityEvent object
-  It allows to make changes after changes are applied, or redirect.
-- **form_invalid_event_name**: (optional) dispatched on form submitted and invalid
-  Dispatches Softspring\CrudlBundle\Event\GetResponseFormEvent object
-  It allows to process form errors.
-- **view_event_name**: (optional)
-  Dispatches Softspring\CoreBundle\Event\ViewEvent object
-  Allows data adding for the view.
-
-#### Delete action configuration
-
-This is the list action configuration reference:
-
-```yaml
-    $config:
-      delete:
-        is_granted: 'ROLE_ADMIN_PRODUCT_DELETE'
+$config:
+    update:
+        is_granted: 'ROLE_ADMIN_PRODUCT_UPDATE'
         success_redirect_to: 'app_admin_product_list'
-        view: 'admin/products/delete.html.twig'
-        initialize_event_name: 'product_admin.delete.initialize'
-        form_init_event_name: 'product_admin.delete.form_init'
-        form_valid_event_name: 'product_admin.delete.form_valid'
-        success_event_name: 'product_admin.delete.success'
-        form_invalid_event_name: 'product_admin.delete.form_invalid'
-        view_event_name: 'product_admin.delete.view'
+        view: 'admin/products/update.html.twig'
+        initialize_event_name: 'product_admin.update.initialize'
+        form_init_event_name: 'product_admin.update.form_init'
+        form_valid_event_name: 'product_admin.update.form_valid'
+        success_event_name: 'product_admin.update.success'
+        form_invalid_event_name: 'product_admin.update.form_invalid'
+        view_event_name: 'product_admin.update.view'
 ```
 
 Main fields:
@@ -301,21 +157,66 @@ Events configuration:
   Dispatches Softspring\CoreBundle\Event\ViewEvent object
   Allows data adding for the view.
 
-#### List action configuration
+## Delete action configuration
 
 This is the list action configuration reference:
 
 ```yaml
-    $config:
-        list:
-            is_granted: 'ROLE_ADMIN_PRODUCT_LIST'
-            read_route: 'app_admin_product_details'
-            view: 'admin/products/list.html.twig'
-            view_page: 'admin/products/list-page.html.twig'
-            initialize_event_name: 'product_admin.list.initialize'
-            filter_event_name: 'product_admin.list.filter'
-            view_event_name: !php/const App\Events::ADMIN_PRODUCT_LIST_VIEW
-            default_order_sort: <default_order_sort>
+$config:
+  delete:
+    is_granted: 'ROLE_ADMIN_PRODUCT_DELETE'
+    success_redirect_to: 'app_admin_product_list'
+    view: 'admin/products/delete.html.twig'
+    initialize_event_name: 'product_admin.delete.initialize'
+    form_init_event_name: 'product_admin.delete.form_init'
+    form_valid_event_name: 'product_admin.delete.form_valid'
+    success_event_name: 'product_admin.delete.success'
+    form_invalid_event_name: 'product_admin.delete.form_invalid'
+    view_event_name: 'product_admin.delete.view'
+```
+
+Main fields:
+
+- **is_granted**: (optional) role name to check at the begining
+- **view**: (required) the view path for rendering list
+- **success_redirect_to**: (optional) route name to redirect o success
+
+Events configuration:
+
+- **initialize_event_name**: (optional) event dispatched after checking is_granded and before form processing.
+  Dispatches Softspring\CoreBundle\Event\GetResponseRequestEvent object
+  It allows, for example, to redirect on custom situation.
+- **form_init_event_name**: (optional) event dispatched after form creation but before process it
+  Dispatches Softspring\CrudlBundle\Event\GetResponseEntityEvent object
+  It allows to modify form.
+- **form_valid_event_name**: (optional) dispatched on form submitted and valid
+  Dispatches Softspring\CrudlBundle\Event\GetResponseFormEvent object
+  It allows to modify model before saving it.
+- **success_event_name**: (optional)
+  Dispatches Softspring\CrudlBundle\Event\GetResponseEntityEvent object
+  It allows to make changes after changes are applied, or redirect.
+- **form_invalid_event_name**: (optional) dispatched on form submitted and invalid
+  Dispatches Softspring\CrudlBundle\Event\GetResponseFormEvent object
+  It allows to process form errors.
+- **view_event_name**: (optional)
+  Dispatches Softspring\CoreBundle\Event\ViewEvent object
+  Allows data adding for the view.
+
+## List action configuration
+
+This is the list action configuration reference:
+
+```yaml
+$config:
+    list:
+        is_granted: 'ROLE_ADMIN_PRODUCT_LIST'
+        read_route: 'app_admin_product_details'
+        view: 'admin/products/list.html.twig'
+        view_page: 'admin/products/list-page.html.twig'
+        initialize_event_name: 'product_admin.list.initialize'
+        filter_event_name: 'product_admin.list.filter'
+        view_event_name: !php/const App\Events::ADMIN_PRODUCT_LIST_VIEW
+        default_order_sort: <default_order_sort>
 ```
 
 Main fields:
@@ -341,7 +242,7 @@ Other fields:
 
 - **default_order_sort**: (optional) is used in case no list filter form configured.
 
-### Routing configuration
+## Routing configuration
 
 Now you need to configure the routes.
 
