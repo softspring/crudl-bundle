@@ -60,4 +60,5 @@ Each of those events, dispatch an object of next classes:
 - Softspring\CoreBundle\Event\ViewEvent
 - Softspring\CrudlBundle\Event\FilterEvent
 - Softspring\CrudlBundle\Event\GetResponseEntityEvent
+- Softspring\CrudlBundle\Event\GetResponseEntityExceptionEvent
 - Softspring\CrudlBundle\Event\GetResponseFormEvent

@@ -8,6 +8,7 @@ use Softspring\CoreBundle\Event\GetResponseEventInterface;
 use Softspring\CoreBundle\Event\GetResponseRequestEvent;
 use Softspring\CrudlBundle\Event\FilterEvent;
 use Softspring\CrudlBundle\Event\GetResponseEntityEvent;
+use Softspring\CrudlBundle\Event\GetResponseEntityExceptionEvent;
 use Softspring\CrudlBundle\Event\GetResponseFormEvent;
 use Softspring\CrudlBundle\Form\EntityCreateFormInterface;
 use Softspring\CrudlBundle\Form\EntityDeleteFormInterface;
@@ -282,13 +283,19 @@ class CrudlController extends AbstractController
                     return $response;
                 }
 
-                $this->manager->deleteEntity($entity);
+                try {
+                    $this->manager->deleteEntity($entity);
 
-                if ($response = $this->dispatchGetResponseFromConfig('delete', 'success_event_name', new GetResponseEntityEvent($entity, $request))) {
-                    return $response;
+                    if ($response = $this->dispatchGetResponseFromConfig('delete', 'success_event_name', new GetResponseEntityEvent($entity, $request))) {
+                        return $response;
+                    }
+
+                    return $this->redirect(!empty($this->config['delete']['success_redirect_to']) ? $this->generateUrl($this->config['delete']['success_redirect_to']) : '/');
+                } catch (\Exception $e) {
+                    if ($response = $this->dispatchGetResponseFromConfig('delete', 'delete_exception_event_name', new GetResponseEntityExceptionEvent($entity, $request, $e))) {
+                        return $response;
+                    }
                 }
-
-                return $this->redirect(!empty($this->config['delete']['success_redirect_to']) ? $this->generateUrl($this->config['delete']['success_redirect_to']) : '/');
             } else {
                 if ($response = $this->dispatchGetResponseFromConfig('delete', 'form_invalid_event_name', new GetResponseFormEvent($form, $request))) {
                     return $response;

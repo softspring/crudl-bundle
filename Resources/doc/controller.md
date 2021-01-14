@@ -172,6 +172,7 @@ $config:
     form_valid_event_name: 'product_admin.delete.form_valid'
     success_event_name: 'product_admin.delete.success'
     form_invalid_event_name: 'product_admin.delete.form_invalid'
+    delete_exception_event_name: 'product_admin.delete.exception'
     view_event_name: 'product_admin.delete.view'
 ```
 
@@ -198,6 +199,9 @@ Events configuration:
 - **form_invalid_event_name**: (optional) dispatched on form submitted and invalid
   Dispatches Softspring\CrudlBundle\Event\GetResponseFormEvent object
   It allows to process form errors.
+- **delete_exception_event_name**: (optional) dispatched on entity deletion when it throws an exception.
+  Dispatches Softspring\CrudlBundle\Event\GetResponseExceptionFormEvent object
+  It allows to process exception, show errors or redirect.
 - **view_event_name**: (optional)
   Dispatches Softspring\CoreBundle\Event\ViewEvent object
   Allows data adding for the view.
