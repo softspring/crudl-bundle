@@ -22,19 +22,19 @@ class FilterEvent extends Event
     protected $page;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $rpp;
 
     /**
      * FilterEvent constructor.
      *
-     * @param array $filters
-     * @param array $orderSort
-     * @param int   $page
-     * @param int   $rpp
+     * @param array    $filters
+     * @param array    $orderSort
+     * @param int      $page
+     * @param int|null $rpp
      */
-    public function __construct(array $filters, array $orderSort, int $page, int $rpp)
+    public function __construct(array $filters, array $orderSort, int $page, ?int $rpp)
     {
         $this->filters = $filters;
         $this->orderSort = $orderSort;
@@ -91,17 +91,17 @@ class FilterEvent extends Event
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getRpp(): int
+    public function getRpp(): ?int
     {
         return $this->rpp;
     }
 
     /**
-     * @param int $rpp
+     * @param int|null $rpp
      */
-    public function setRpp(int $rpp): void
+    public function setRpp(?int $rpp): void
     {
         $this->rpp = $rpp;
     }

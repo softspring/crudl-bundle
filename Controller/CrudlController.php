@@ -351,7 +351,7 @@ class CrudlController extends AbstractController
         } else {
             $page = 1;
             $rpp = null;
-            $orderSort = $this->config['list']['default_order_sort'] ?? null;
+            $orderSort = $this->config['list']['default_order_sort'] ?? [];
             $form = null;
             $filters = [];
         }
