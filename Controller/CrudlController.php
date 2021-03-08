@@ -38,17 +38,17 @@ class CrudlController extends AbstractController
     protected $listFilterForm;
 
     /**
-     * @var EntityCreateFormInterface|null
+     * @var EntityCreateFormInterface|string|null
      */
     protected $createForm;
 
     /**
-     * @var EntityUpdateFormInterface|null
+     * @var EntityUpdateFormInterface|string|null
      */
     protected $updateForm;
 
     /**
-     * @var EntityDeleteFormInterface|null
+     * @var EntityDeleteFormInterface|string|null
      */
     protected $deleteForm;
 
@@ -61,12 +61,12 @@ class CrudlController extends AbstractController
      * EntityController constructor.
      * @param CrudlEntityManagerInterface $manager
      * @param EntityListFilterFormInterface|null $listFilterForm
-     * @param EntityCreateFormInterface|null $createForm
-     * @param EntityUpdateFormInterface|null $updateForm
-     * @param EntityDeleteFormInterface|null $deleteForm
+     * @param EntityCreateFormInterface|string|null $createForm
+     * @param EntityUpdateFormInterface|string|null $updateForm
+     * @param EntityDeleteFormInterface|string|null $deleteForm
      * @param array $config
      */
-    public function __construct(CrudlEntityManagerInterface $manager, ?EntityListFilterFormInterface $listFilterForm = null, ?EntityCreateFormInterface $createForm = null, ?EntityUpdateFormInterface $updateForm = null, ?EntityDeleteFormInterface $deleteForm = null, array $config = [])
+    public function __construct(CrudlEntityManagerInterface $manager, ?EntityListFilterFormInterface $listFilterForm = null, $createForm = null, $updateForm = null, $deleteForm = null, array $config = [])
     {
         $this->manager = $manager;
         $this->listFilterForm = $listFilterForm;
@@ -91,8 +91,8 @@ class CrudlController extends AbstractController
             $this->denyAccessUnlessGranted($this->config['create']['is_granted'], null, sprintf('Access denied, user is not %s.', $this->config['create']['is_granted']));
         }
 
-        if (!$this->createForm instanceof EntityCreateFormInterface) {
-            throw new \InvalidArgumentException(sprintf('Create form must be an instance of %s', EntityCreateFormInterface::class));
+        if (!$this->createForm instanceof EntityCreateFormInterface && !is_string($this->createForm)) {
+            throw new \InvalidArgumentException(sprintf('Create form must be an instance of %s or a class name', EntityCreateFormInterface::class));
         }
 
         $newEntity = $this->manager->createEntity();
@@ -101,8 +101,15 @@ class CrudlController extends AbstractController
             return $response;
         }
 
-        $formOptions = method_exists($this->createForm, 'formOptions') ? $this->createForm->formOptions($newEntity, $request) : ['method' => 'POST'];
-        $form = $this->createForm(get_class($this->createForm), $newEntity, $formOptions)->handleRequest($request);
+        if ($this->createForm instanceof EntityCreateFormInterface && method_exists($this->createForm, 'formOptions')) {
+            $formOptions = $this->createForm->formOptions($newEntity, $request);
+        } else {
+            $formOptions = ['method' => 'POST'];
+        }
+
+        $formClassName = $this->createForm instanceof EntityCreateFormInterface ? get_class($this->createForm) : $this->createForm;
+
+        $form = $this->createForm($formClassName, $newEntity, $formOptions)->handleRequest($request);
 
         $this->dispatchFromConfig('create', 'form_init_event_name', new FormEvent($form, $request));
 
@@ -199,16 +206,23 @@ class CrudlController extends AbstractController
             throw $this->createNotFoundException('Entity not found');
         }
 
-        if (!$this->updateForm instanceof EntityUpdateFormInterface) {
-            throw new \InvalidArgumentException(sprintf('Update form must be an instance of %s', EntityUpdateFormInterface::class));
+        if (!$this->updateForm instanceof EntityUpdateFormInterface && !is_string($this->updateForm)) {
+            throw new \InvalidArgumentException(sprintf('Update form must be an instance of %s or a class name', EntityUpdateFormInterface::class));
         }
 
         if ($response = $this->dispatchGetResponseFromConfig('update', 'initialize_event_name', new GetResponseEntityEvent($entity, $request))) {
             return $response;
         }
 
-        $formOptions = method_exists($this->updateForm, 'formOptions') ? $this->updateForm->formOptions($entity, $request) : ['method' => 'POST'];
-        $form = $this->createForm(get_class($this->updateForm), $entity, $formOptions)->handleRequest($request);
+        if ($this->updateForm instanceof EntityUpdateFormInterface && method_exists($this->updateForm, 'formOptions')) {
+            $formOptions = $this->updateForm->formOptions($entity, $request);
+        } else {
+            $formOptions = ['method' => 'POST'];
+        }
+
+        $formClassName = $this->updateForm instanceof EntityUpdateFormInterface ? get_class($this->updateForm) : $this->updateForm;
+
+        $form = $this->createForm($formClassName, $entity, $formOptions)->handleRequest($request);
 
         $this->dispatchFromConfig('update', 'form_init_event_name', new FormEvent($form, $request));
 
@@ -263,10 +277,6 @@ class CrudlController extends AbstractController
 
         if (!$entity) {
             throw $this->createNotFoundException('Entity not found');
-        }
-
-        if (!$this->deleteForm instanceof EntityDeleteFormInterface) {
-            throw new \InvalidArgumentException(sprintf('Delete form must be an instance of %s', EntityDeleteFormInterface::class));
         }
 
         if ($response = $this->dispatchGetResponseFromConfig('delete', 'initialize_event_name', new GetResponseEntityEvent($entity, $request))) {
@@ -345,8 +355,10 @@ class CrudlController extends AbstractController
             $rpp = $this->listFilterForm->getRpp($request);
             $orderSort = $this->listFilterForm->getOrder($request);
 
+            $formClassName = get_class($this->listFilterForm);
+
             // filter form
-            $form = $this->createForm(get_class($this->listFilterForm))->handleRequest($request);
+            $form = $this->createForm($formClassName)->handleRequest($request);
             $filters = $form->isSubmitted() && $form->isValid() ? array_filter($form->getData()) : [];
         } else {
             $page = 1;
@@ -392,13 +404,23 @@ class CrudlController extends AbstractController
      */
     protected function getDeleteForm($entity): ?FormInterface
     {
-        if ($this->deleteForm instanceof EntityDeleteFormInterface) {
-            $formOptions = method_exists($this->deleteForm, 'formOptions') ? $this->deleteForm->formOptions($entity, null) : ['method' => 'POST'];
-
-            return $this->createForm(get_class($this->deleteForm), $entity, $formOptions);
+        if (!$this->deleteForm) {
+            return null;
         }
 
-        return null;
+        if (!$this->deleteForm instanceof EntityDeleteFormInterface && !is_string($this->deleteForm)) {
+            throw new \InvalidArgumentException(sprintf('Delete form must be an instance of %s or a class name', EntityDeleteFormInterface::class));
+        }
+
+        if ($this->deleteForm instanceof EntityDeleteFormInterface && method_exists($this->deleteForm, 'formOptions')) {
+            $formOptions = $this->deleteForm->formOptions($entity, $request);
+        } else {
+            $formOptions = ['method' => 'POST'];
+        }
+
+        $formClassName = $this->deleteForm instanceof EntityDeleteFormInterface ? get_class($this->deleteForm) : $this->deleteForm;
+
+        return $this->createForm($formClassName, $entity, $formOptions);
     }
 
     /**
