@@ -171,7 +171,7 @@ class CrudlController extends AbstractController
             throw $this->createNotFoundException('Entity not found');
         }
 
-        $deleteForm = $this->getDeleteForm($entity);
+        $deleteForm = $this->getDeleteForm($entity, $request);
 
         // show view
         $viewData = new \ArrayObject([
@@ -283,7 +283,7 @@ class CrudlController extends AbstractController
             return $response;
         }
 
-        $form = $this->getDeleteForm($entity)->handleRequest($request);
+        $form = $this->getDeleteForm($entity, $request)->handleRequest($request);
 
         $this->dispatchFromConfig('delete', 'form_init_event_name', new FormEvent($form, $request));
 
@@ -402,7 +402,7 @@ class CrudlController extends AbstractController
      *
      * @return FormInterface|null
      */
-    protected function getDeleteForm($entity): ?FormInterface
+    protected function getDeleteForm($entity, Request $request): ?FormInterface
     {
         if (!$this->deleteForm) {
             return null;
