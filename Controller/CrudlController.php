@@ -279,6 +279,10 @@ class CrudlController extends AbstractController
             throw $this->createNotFoundException('Entity not found');
         }
 
+        if (!$this->deleteForm instanceof EntityDeleteFormInterface && !is_string($this->deleteForm)) {
+            throw new \InvalidArgumentException(sprintf('Delete form must be an instance of %s or a class name', EntityDeleteFormInterface::class));
+        }
+
         if ($response = $this->dispatchGetResponseFromConfig('delete', 'initialize_event_name', new GetResponseEntityEvent($entity, $request))) {
             return $response;
         }
