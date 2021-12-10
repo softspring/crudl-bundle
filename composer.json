@@ -28,7 +28,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Softspring\\CrudlBundle\\Tests\\": "/tests/"
+            "Softspring\\CrudlBundle\\Tests\\": "tests"
         }
     },
     "suggest": {
