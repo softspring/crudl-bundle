@@ -24,10 +24,10 @@ $ composer require softspring/crudl-bundle
 
 # Documentation
 
-- [Structure](Resources/doc/structure.md)
-- [Manager configuration](Resources/doc/manager.md)
-- [Controller configuration](Resources/doc/controller.md)
-- [Full example](Resources/doc/full_example.md)
+- [Structure](docs/structure.md)
+- [Manager configuration](docs/manager.md)
+- [Controller configuration](docs/controller.md)
+- [Full example](docs/full_example.md)
 
 # License
 
