@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Trait CrudlEntityManagerTrait
+ * Trait CrudlEntityManagerTrait.
  */
 trait CrudlEntityManagerTrait
 {
@@ -15,41 +15,20 @@ trait CrudlEntityManagerTrait
      */
     protected $em;
 
-    /**
-     * @return string
-     *
-     * @deprecated use getTargetClass
-     */
-    public function getClass(): string
-    {
-        return $this->getTargetClass();
-    }
-
-    /**
-     * @return string
-     */
     abstract public function getTargetClass(): string;
 
-    /**
-     * @return string
-     */
     public function getEntityClass(): string
     {
         return $this->getEntityClassReflection()->name;
     }
 
-    /**
-     * @return \ReflectionClass
-     */
     public function getEntityClassReflection(): \ReflectionClass
     {
         $metadata = $this->em->getClassMetadata($this->getTargetClass());
+
         return $metadata->getReflectionClass();
     }
 
-    /**
-     * @return EntityRepository
-     */
     public function getRepository(): EntityRepository
     {
         /** @var EntityRepository $repo */
@@ -64,7 +43,8 @@ trait CrudlEntityManagerTrait
     public function createEntity()
     {
         $class = $this->getEntityClass();
-        return new $class;
+
+        return new $class();
     }
 
     /**
@@ -91,5 +71,10 @@ trait CrudlEntityManagerTrait
 
         $this->em->remove($entity);
         $this->em->flush();
+    }
+
+    public function getEntityManager(): EntityManagerInterface
+    {
+        return $this->em;
     }
 }

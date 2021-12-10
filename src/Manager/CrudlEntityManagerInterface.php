@@ -2,38 +2,20 @@
 
 namespace Softspring\CrudlBundle\Manager;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Interface CrudlEntityManagerInterface
+ * Interface CrudlEntityManagerInterface.
  */
 interface CrudlEntityManagerInterface
 {
-    /**
-     * @return string
-     *
-     * @deprecated use getTargetClass
-     */
-    public function getClass(): string;
-
-    /**
-     * @return string
-     */
     public function getTargetClass(): string;
 
-    /**
-     * @return string
-     */
     public function getEntityClass(): string;
 
-    /**
-     * @return \ReflectionClass
-     */
     public function getEntityClassReflection(): \ReflectionClass;
 
-    /**
-     * @return EntityRepository
-     */
     public function getRepository(): EntityRepository;
 
     /**
@@ -50,4 +32,6 @@ interface CrudlEntityManagerInterface
      * @param object $entity
      */
     public function deleteEntity($entity): void;
+
+    public function getEntityManager(): EntityManagerInterface;
 }
