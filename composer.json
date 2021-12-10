@@ -2,6 +2,7 @@
     "name": "softspring/crudl-bundle",
     "description": "A CRUD+list helper bundle.",
     "license": "MIT",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=7.4",
         "softspring/core-bundle": "^4.0"
