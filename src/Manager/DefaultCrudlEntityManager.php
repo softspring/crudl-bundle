@@ -20,9 +20,6 @@ class DefaultCrudlEntityManager implements CrudlEntityManagerInterface
 
     /**
      * DefaultCrudlEntityManager constructor.
-     *
-     * @param string                 $targetClass
-     * @param EntityManagerInterface $em
      */
     public function __construct(string $targetClass, EntityManagerInterface $em)
     {
@@ -30,9 +27,6 @@ class DefaultCrudlEntityManager implements CrudlEntityManagerInterface
         $this->em = $em;
     }
 
-    /**
-     * @return string
-     */
     public function getTargetClass(): string
     {
         return $this->targetClass;

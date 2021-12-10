@@ -47,7 +47,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
 
         $this->repository->expects($this->once())->method('findOneBy')->willReturn(null);
 
-        $controller = new CrudlController($this->manager, null,null,null,null, $config);
+        $controller = new CrudlController($this->manager, null, null, null, null, $config);
 
         $this->expectException(NotFoundHttpException::class);
 
@@ -64,7 +64,7 @@ class CrudlControllerUpdateTest extends AbstractCrudlControllerTestCase
 
         $this->repository->expects($this->once())->method('findOneBy')->willReturn(new \stdClass());
 
-        $controller = new CrudlController($this->manager, null,null,null,null, $config);
+        $controller = new CrudlController($this->manager, null, null, null, null, $config);
 
         $this->expectException(\InvalidArgumentException::class);
 

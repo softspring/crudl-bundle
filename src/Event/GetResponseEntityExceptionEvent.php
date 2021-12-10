@@ -21,9 +21,6 @@ class GetResponseEntityExceptionEvent extends EntityEvent implements GetResponse
         $this->exception = $exception;
     }
 
-    /**
-     * @return \Throwable
-     */
     public function getException(): \Throwable
     {
         return $this->exception;

@@ -39,7 +39,7 @@ abstract class AbstractCrudlControllerTestCase extends TestCase
     protected $formFactory;
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function setUp(): void
     {
@@ -55,7 +55,7 @@ abstract class AbstractCrudlControllerTestCase extends TestCase
         $test = $this;
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(function($service) use ($test) {
+            ->will($this->returnCallback(function ($service) use ($test) {
                 switch ($service) {
                     case 'event_dispatcher':
                         return $test->dispatcher;
@@ -70,12 +70,10 @@ abstract class AbstractCrudlControllerTestCase extends TestCase
     }
 
     /**
-     * @param array $config
-     * @param array $onlyMethods
-     * @param null  $listFilterForm
-     * @param null  $createForm
-     * @param null  $updateForm
-     * @param null  $deleteForm
+     * @param null $listFilterForm
+     * @param null $createForm
+     * @param null $updateForm
+     * @param null $deleteForm
      *
      * @return MockObject|CrudlController
      */

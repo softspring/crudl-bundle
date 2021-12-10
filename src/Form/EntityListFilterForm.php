@@ -22,7 +22,7 @@ class EntityListFilterForm extends AbstractType implements EntityListFilterFormI
             'csrf_protection' => false,
             'method' => 'GET',
             'required' => false,
-            'attr' => ['novalidate'=>'novalidate'],
+            'attr' => ['novalidate' => 'novalidate'],
             'allow_extra_fields' => true,
         ]);
     }
@@ -56,14 +56,13 @@ class EntityListFilterForm extends AbstractType implements EntityListFilterFormI
     {
         if (class_exists(RequestParam::class)) {
             $order = RequestParam::getQueryValidParam($request, self::getOrderFieldParamName(), 'id', ['id']);
-            $sort = RequestParam::getQueryValidParam($request, self::getOrderDirectionParamName(), 'asc', ['asc','desc']);
+            $sort = RequestParam::getQueryValidParam($request, self::getOrderDirectionParamName(), 'asc', ['asc', 'desc']);
 
             return [$order => $sort];
         }
 
         return [$request->query->get(self::getOrderFieldParamName(), '') ?: 'id' => $request->query->get(self::getOrderDirectionParamName(), '') ?: 'asc'];
     }
-
 
     public static function getPageParamName(): string
     {

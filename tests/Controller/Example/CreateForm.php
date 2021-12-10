@@ -7,5 +7,4 @@ use Symfony\Component\Form\AbstractType;
 
 class CreateForm extends AbstractType implements EntityCreateFormInterface
 {
-
 }

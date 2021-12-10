@@ -16,6 +16,7 @@ class ManagerTest extends TestCase
         $manager = new ExampleManagerCrudl($em);
         $this->assertEquals('Softspring\\CrudlBundle\\Tests\\Manager\\ExampleEntity', $manager->getTargetClass());
     }
+
     public function testGetClassDeprecated()
     {
         $em = $this->getMockBuilder(EntityManager::class)->disableOriginalConstructor()->getMock();

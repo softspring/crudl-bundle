@@ -7,5 +7,4 @@ use Symfony\Component\Form\AbstractType;
 
 class DeleteForm extends AbstractType implements EntityDeleteFormInterface
 {
-
 }

@@ -45,7 +45,7 @@ class CrudlControllerReadTest extends AbstractCrudlControllerTestCase
 
         $this->repository->expects($this->once())->method('findOneBy')->willReturn(null);
 
-        $controller = new CrudlController($this->manager, null,null,null,null, $config);
+        $controller = new CrudlController($this->manager, null, null, null, null, $config);
         $controller->setContainer($this->container);
 
         $this->expectException(NotFoundHttpException::class);

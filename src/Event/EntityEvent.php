@@ -21,7 +21,6 @@ class EntityEvent extends Event
      * AccountEvent constructor.
      *
      * @param object $entity
-     * @param Request|null  $request
      */
     public function __construct($entity, ?Request $request)
     {
@@ -37,9 +36,6 @@ class EntityEvent extends Event
         return $this->entity;
     }
 
-    /**
-     * @return Request|null
-     */
     public function getRequest(): ?Request
     {
         return $this->request;
