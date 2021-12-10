@@ -4,6 +4,7 @@
     "type": "symfony-bundle",
     "license": "MIT",
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=7.4",
         "softspring/core-bundle": "^4.0"
@@ -17,19 +18,17 @@
         "symfony/framework-bundle": "^4.4 || ^5.3 || ^6.0",
         "symfony/twig-bridge": "^4.4 || ^5.3 || ^6.0",
         "symfony/yaml": "^4.4 || ^5.3 || ^6.0",
-        "twig/twig": "^2.0"
+        "twig/twig": "^2.0",
+        "friendsofphp/php-cs-fixer": "^3.3"
     },
     "autoload": {
         "psr-4": {
-            "Softspring\\CrudlBundle\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+            "Softspring\\CrudlBundle\\": "src"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Softspring\\CrudlBundle\\Tests\\": "/Tests/"
+            "Softspring\\CrudlBundle\\Tests\\": "/tests/"
         }
     },
     "suggest": {

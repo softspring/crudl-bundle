@@ -9,5 +9,7 @@ php:
   - 8.0
 
 install: composer update --prefer-dist --no-interaction
-  
-script: ./vendor/bin/phpunit --coverage-text
+
+script:
+  - ./vendor/bin/phpunit --coverage-text
+  - ./vendor/bin/php-cs-fixer fix -v --diff --dry-run
