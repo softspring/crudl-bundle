@@ -3,7 +3,7 @@
     "description": "A CRUD+list helper bundle.",
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": ">=7.4",
         "softspring/core-bundle": "^1.1.1"
     },
     "require-dev": {
