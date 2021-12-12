@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Softspring\\CrudlBundle\\": "src"
+            "Softspring\\CrudlBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Softspring\\CrudlBundle\\Tests\\": "tests"
+            "Softspring\\CrudlBundle\\Tests\\": "tests/"
         }
     },
     "suggest": {
