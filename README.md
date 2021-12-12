@@ -2,7 +2,7 @@
 [![Latest Stable Version](http://poser.pugx.org/softspring/crudl-bundle/v)](https://packagist.org/packages/softspring/crudl-bundle) 
 [![Total Downloads](http://poser.pugx.org/softspring/crudl-bundle/downloads)](https://packagist.org/packages/softspring/crudl-bundle) 
 [![Latest Unstable Version](http://poser.pugx.org/softspring/crudl-bundle/v/unstable)](https://packagist.org/packages/softspring/crudl-bundle)
-[![Build status](https://travis-ci.com/softspring/crudl-bundle.svg?branch=master)](https://travis-ci.com/softspring/crudl-bundle)
+[![Build status](https://app.travis-ci.com/github/softspring/crudl-bundle.svg?branch=master)](https://app.travis-ci.com/github/softspring/crudl-bundle)
 [![License](http://poser.pugx.org/softspring/crudl-bundle/license)](https://packagist.org/packages/softspring/crudl-bundle)
 [![PHP Version Require](http://poser.pugx.org/softspring/crudl-bundle/require/php)](https://packagist.org/packages/softspring/crudl-bundle)
 
