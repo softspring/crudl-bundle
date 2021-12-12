@@ -81,7 +81,7 @@ class CrudlController extends AbstractController
     public function create(Request $request, $createForm = null, array $config = []): Response
     {
         $createForm = $createForm ?: $this->createForm;
-        $config = array_replace_recursive($this->config['create'], $config);
+        $config = array_replace_recursive($this->config['create']??[], $config);
 
         if (empty($config)) {
             throw new \InvalidArgumentException('Create action configuration is empty');
@@ -146,7 +146,7 @@ class CrudlController extends AbstractController
 
     public function read(Request $request, array $config = []): Response
     {
-        $config = array_replace_recursive($this->config['read'], $config);
+        $config = array_replace_recursive($this->config['read']??[], $config);
 
         $entity = $request->attributes->get($this->config['entity_attribute']);
 
@@ -188,7 +188,7 @@ class CrudlController extends AbstractController
     public function update(Request $request, $updateForm = null, array $config = []): Response
     {
         $updateForm = $updateForm ?: $this->updateForm;
-        $config = array_replace_recursive($this->config['update'], $config);
+        $config = array_replace_recursive($this->config['update']??[], $config);
 
         $entity = $request->attributes->get($this->config['entity_attribute']);
 
@@ -263,7 +263,7 @@ class CrudlController extends AbstractController
     public function delete(Request $request, $deleteForm = null, array $config = []): Response
     {
         $deleteForm = $deleteForm ?: $this->deleteForm;
-        $config = array_replace_recursive($this->config['delete'], $config);
+        $config = array_replace_recursive($this->config['delete']??[], $config);
 
         $entity = $request->attributes->get($this->config['entity_attribute']);
 
@@ -336,7 +336,7 @@ class CrudlController extends AbstractController
     public function list(Request $request, $listFilterForm = null, array $config = []): Response
     {
         $listFilterForm = $listFilterForm ?: $this->listFilterForm;
-        $config = array_replace_recursive($this->config['list'], $config);
+        $config = array_replace_recursive($this->config['list']??[], $config);
 
         if (empty($config)) {
             throw new \InvalidArgumentException('List action configuration is empty');
