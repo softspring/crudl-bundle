@@ -3,7 +3,7 @@
 namespace Softspring\CrudlBundle\Controller;
 
 use Jhg\DoctrinePagination\ORM\PaginatedRepositoryInterface;
-use Softspring\CoreBundle\Controller\AbstractController;
+use Softspring\CoreBundle\Controller\Traits\DispatchGetResponseTrait;
 use Softspring\CoreBundle\Event\FormEvent;
 use Softspring\CoreBundle\Event\GetResponseEventInterface;
 use Softspring\CoreBundle\Event\GetResponseRequestEvent;
@@ -17,6 +17,8 @@ use Softspring\CrudlBundle\Form\EntityDeleteFormInterface;
 use Softspring\CrudlBundle\Form\EntityListFilterFormInterface;
 use Softspring\CrudlBundle\Form\EntityUpdateFormInterface;
 use Softspring\CrudlBundle\Manager\CrudlEntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +29,8 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class CrudlController extends AbstractController
 {
+    use DispatchGetResponseTrait;
+
     /**
      * @var CrudlEntityManagerInterface
      */
@@ -58,15 +62,21 @@ class CrudlController extends AbstractController
     protected $config;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    /**
      * EntityController constructor.
      *
      * @param EntityCreateFormInterface|string|null $createForm
      * @param EntityUpdateFormInterface|string|null $updateForm
      * @param EntityDeleteFormInterface|string|null $deleteForm
      */
-    public function __construct(CrudlEntityManagerInterface $manager, ?EntityListFilterFormInterface $listFilterForm = null, $createForm = null, $updateForm = null, $deleteForm = null, array $config = [])
+    public function __construct(CrudlEntityManagerInterface $manager, EventDispatcherInterface $eventDispatcher, ?EntityListFilterFormInterface $listFilterForm = null, $createForm = null, $updateForm = null, $deleteForm = null, array $config = [])
     {
         $this->manager = $manager;
+        $this->eventDispatcher = $eventDispatcher;
         $this->listFilterForm = $listFilterForm;
         $this->createForm = $createForm;
         $this->updateForm = $updateForm;
