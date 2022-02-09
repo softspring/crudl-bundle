@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Softspring\CrudlBundle\Controller\CrudlController;
 use Softspring\CrudlBundle\Tests\Manager\ExampleManagerCrudl;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactory;
 
 abstract class AbstractCrudlControllerTestCase extends TestCase
@@ -48,7 +48,7 @@ abstract class AbstractCrudlControllerTestCase extends TestCase
         $this->repository = $this->getMockBuilder(EntityRepository::class)->disableOriginalConstructor()->getMock();
         $this->manager->expects($this->any())->method('getRepository')->willReturn($this->repository);
 
-        $this->dispatcher = $this->getMockBuilder(EventDispatcher::class)->disableOriginalConstructor()->getMock();
+        $this->dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->disableOriginalConstructor()->getMock();
         $this->container = $this->getMockBuilder(Container::class)->disableOriginalConstructor()->getMock();
         $this->formFactory = $this->getMockBuilder(FormFactory::class)->disableOriginalConstructor()->getMock();
 
@@ -80,7 +80,7 @@ abstract class AbstractCrudlControllerTestCase extends TestCase
     protected function getControllerMock(array $config, array $onlyMethods = [], $listFilterForm = null, $createForm = null, $updateForm = null, $deleteForm = null)
     {
         $controller = $this->getMockBuilder(CrudlController::class)
-            ->setConstructorArgs([$this->manager, $listFilterForm, $createForm, $updateForm, $deleteForm, $config])
+            ->setConstructorArgs([$this->manager, $this->dispatcher, $listFilterForm, $createForm, $updateForm, $deleteForm, $config])
             ->onlyMethods($onlyMethods)
             ->getMock();
 

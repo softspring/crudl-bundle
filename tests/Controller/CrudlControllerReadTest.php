@@ -12,7 +12,7 @@ class CrudlControllerReadTest extends AbstractCrudlControllerTestCase
 {
     public function testReadEmptyConfiguration()
     {
-        $controller = new CrudlController($this->manager);
+        $controller = new CrudlController($this->manager, $this->dispatcher);
 
         $this->expectException(\InvalidArgumentException::class);
 
@@ -45,7 +45,7 @@ class CrudlControllerReadTest extends AbstractCrudlControllerTestCase
 
         $this->repository->expects($this->once())->method('findOneBy')->willReturn(null);
 
-        $controller = new CrudlController($this->manager, null, null, null, null, $config);
+        $controller = new CrudlController($this->manager, $this->dispatcher, null, null, null, null, $config);
         $controller->setContainer($this->container);
 
         $this->expectException(NotFoundHttpException::class);
