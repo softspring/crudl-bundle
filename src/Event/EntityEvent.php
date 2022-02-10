@@ -13,19 +13,14 @@ class EntityEvent extends Event
 
     /**
      * AccountEvent constructor.
-     *
-     * @param object $entity
      */
-    public function __construct($entity, ?Request $request)
+    public function __construct(object $entity, ?Request $request)
     {
         $this->entity = $entity;
         $this->request = $request;
     }
 
-    /**
-     * @return object
-     */
-    public function getEntity()
+    public function getEntity(): object
     {
         return $this->entity;
     }

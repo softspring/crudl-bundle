@@ -44,6 +44,7 @@ abstract class AbstractCrudlControllerTestCase extends TestCase
     protected function setUp(): void
     {
         $this->manager = $this->getMockBuilder(ExampleManagerCrudl::class)->disableOriginalConstructor()->getMock();
+        $this->manager->method('createEntity')->willReturn(new \stdClass());
 
         $this->repository = $this->getMockBuilder(EntityRepository::class)->disableOriginalConstructor()->getMock();
         $this->manager->expects($this->any())->method('getRepository')->willReturn($this->repository);

@@ -159,12 +159,12 @@ class CrudlController extends AbstractController
             $this->denyAccessUnlessGranted($config['is_granted'], $entity, sprintf('Access denied, user is not %s.', $config['is_granted']));
         }
 
-        if ($response = $this->dispatchGetResponseFromConfig($config, 'initialize_event_name', new GetResponseEntityEvent($entity, $request))) {
-            return $response;
-        }
-
         if (!$entity) {
             throw $this->createNotFoundException('Entity not found');
+        }
+
+        if ($response = $this->dispatchGetResponseFromConfig($config, 'initialize_event_name', new GetResponseEntityEvent($entity, $request))) {
+            return $response;
         }
 
         $deleteForm = $this->getDeleteForm($entity, $request, $this->deleteForm);
