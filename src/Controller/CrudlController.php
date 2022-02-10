@@ -31,15 +31,9 @@ class CrudlController extends AbstractController
 {
     use DispatchGetResponseTrait;
 
-    /**
-     * @var CrudlEntityManagerInterface
-     */
-    protected $manager;
+    protected CrudlEntityManagerInterface $manager;
 
-    /**
-     * @var EntityListFilterFormInterface|null
-     */
-    protected $listFilterForm;
+    protected ?EntityListFilterFormInterface $listFilterForm;
 
     /**
      * @var EntityCreateFormInterface|string|null
@@ -56,15 +50,9 @@ class CrudlController extends AbstractController
      */
     protected $deleteForm;
 
-    /**
-     * @var array
-     */
-    protected $config;
+    protected array $config;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * EntityController constructor.

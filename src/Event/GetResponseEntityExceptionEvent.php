@@ -10,10 +10,7 @@ class GetResponseEntityExceptionEvent extends EntityEvent implements GetResponse
 {
     use GetResponseTrait;
 
-    /**
-     * @var \Throwable
-     */
-    protected $exception;
+    protected \Throwable $exception;
 
     public function __construct($entity, ?Request $request, \Throwable $exception)
     {

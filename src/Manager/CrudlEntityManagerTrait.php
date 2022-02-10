@@ -10,10 +10,7 @@ use Doctrine\ORM\EntityRepository;
  */
 trait CrudlEntityManagerTrait
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
+    protected EntityManagerInterface $em;
 
     abstract public function getTargetClass(): string;
 

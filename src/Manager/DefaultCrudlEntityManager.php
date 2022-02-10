@@ -8,15 +8,9 @@ class DefaultCrudlEntityManager implements CrudlEntityManagerInterface
 {
     use CrudlEntityManagerTrait;
 
-    /**
-     * @var string
-     */
-    protected $targetClass;
+    protected string $targetClass;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
+    protected EntityManagerInterface $em;
 
     /**
      * DefaultCrudlEntityManager constructor.

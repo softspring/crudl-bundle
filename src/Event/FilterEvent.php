@@ -6,25 +6,13 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class FilterEvent extends Event
 {
-    /**
-     * @var array
-     */
-    protected $filters;
+    protected array $filters;
 
-    /**
-     * @var array
-     */
-    protected $orderSort;
+    protected array $orderSort;
 
-    /**
-     * @var int
-     */
-    protected $page;
+    protected int $page;
 
-    /**
-     * @var int|null
-     */
-    protected $rpp;
+    protected ?int $rpp;
 
     /**
      * FilterEvent constructor.

@@ -7,15 +7,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class EntityEvent extends Event
 {
-    /**
-     * @var object
-     */
-    protected $entity;
+    protected object $entity;
 
-    /**
-     * @var Request|null
-     */
-    protected $request;
+    protected ?Request $request;
 
     /**
      * AccountEvent constructor.
