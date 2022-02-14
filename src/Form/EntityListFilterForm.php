@@ -44,12 +44,12 @@ class EntityListFilterForm extends AbstractType implements EntityListFilterFormI
 
     public function getPage(Request $request): int
     {
-        return (int) $request->query->get(static::getPageParamName(), 1);
+        return (int) ($request->query->get(static::getPageParamName()) ?: 1);
     }
 
     public function getRpp(Request $request): int
     {
-        return (int) $request->query->get(static::getRppParamName(), static::rppDefault());
+        return (int) ($request->query->get(static::getRppParamName()) ?: static::rppDefault());
     }
 
     public function getOrder(Request $request): array
