@@ -386,9 +386,12 @@ class CrudlController extends AbstractController
             $entities = $repo->findBy($filters, $orderSort, $rpp, ($page - 1) * $rpp);
         }
 
+        $entitiesAttribute = $config['entities_attribute'] ?? 'entities';
+
         // show view
         $viewData = new \ArrayObject([
-            'entities' => $entities,
+            'entities' => $entities, // @deprecated
+            $entitiesAttribute => $entities,
             'filterForm' => $form instanceof FormInterface ? $form->createView() : null,
             'read_route' => $config['read_route'] ?? null,
         ]);
