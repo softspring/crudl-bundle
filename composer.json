@@ -38,8 +38,5 @@
         "javihgil/doctrine-pagination-bundle": "1.0.*"
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "4.1-dev"
-        }
     }
 }
