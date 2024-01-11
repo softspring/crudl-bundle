@@ -6,20 +6,14 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4",
-        "softspring/core-bundle": "^4.0"
+        "php": ">=8.1",
+        "softspring/crudl-controller": "^5.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "8.5.*",
-        "doctrine/orm": "^2.5",
-        "symfony/console": "^4.4 || ^5.3 || ^6.0",
-        "symfony/dependency-injection": "^4.4 || ^5.3 || ^6.0",
-        "symfony/form": "^4.4 || ^5.3 || ^6.0",
-        "symfony/framework-bundle": "^4.4 || ^5.3 || ^6.0",
-        "symfony/twig-bridge": "^4.4 || ^5.3 || ^6.0",
-        "symfony/yaml": "^4.4 || ^5.3 || ^6.0",
-        "twig/twig": "^2.0",
-        "friendsofphp/php-cs-fixer": "^3.3"
+        "friendsofphp/php-cs-fixer": "^3.40",
+        "phpmd/phpmd": "dev-master",
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^10.5.5"
     },
     "autoload": {
         "psr-4": {
@@ -30,13 +24,5 @@
         "psr-4": {
             "Softspring\\CrudlBundle\\Tests\\": "tests/"
         }
-    },
-    "suggest": {
-        "javihgil/doctrine-pagination-bundle": "Paginate doctrine repositories easily."
-    },
-    "conflict": {
-        "javihgil/doctrine-pagination-bundle": "1.0.*"
-    },
-    "extra": {
     }
 }
