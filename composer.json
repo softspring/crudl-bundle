@@ -14,8 +14,8 @@
         "phpmd/phpmd": "dev-master",
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^10.5.5",
-        "symfony/http-kernel": "^6.4",
-        "symfony/dependency-injection": "^6.4"
+        "symfony/http-kernel": "^5.4|^6.0|^7.0",
+        "symfony/dependency-injection": "^5.4|^6.0|^7.0"
     },
     "autoload": {
         "psr-4": {
