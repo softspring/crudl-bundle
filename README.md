@@ -1,13 +1,11 @@
 # Crudl Bundle
 
-[![Latest Stable Version](https://poser.pugx.org/softspring/crudl-bundle/v/stable.svg)](https://packagist.org/packages/softspring/crudl-bundle)
-[![Latest Unstable Version](https://poser.pugx.org/softspring/crudl-bundle/v/unstable.svg)](https://packagist.org/packages/softspring/crudl-bundle)
-[![License](https://poser.pugx.org/softspring/crudl-bundle/license.svg)](https://packagist.org/packages/softspring/crudl-bundle)
-[![PHP Version Require](http://poser.pugx.org/softspring/crudl-bundle/require/php)](https://packagist.org/packages/softspring/crudl-bundle)
-[![Total Downloads](https://poser.pugx.org/softspring/crudl-bundle/downloads)](https://packagist.org/packages/softspring/crudl-bundle)
-[![Build status](https://github.com/softspring/crudl-bundle/actions/workflows/php.yml/badge.svg?branch=5.3)](https://github.com/softspring/crudl-bundle/actions/workflows/php.yml)
-![Coverage](https://raw.githubusercontent.com/softspring/crudl-bundle/5.3/.github/badges/coverage.svg)
-
+![Latest Stable](https://img.shields.io/packagist/v/softspring/crudl-bundle?label=stable&style=flat-square)
+![Latest Unstable](https://img.shields.io/packagist/v/softspring/crudl-bundle?label=unstable&style=flat-square&include_prereleases)
+![License](https://img.shields.io/packagist/l/softspring/crudl-bundle?style=flat-square)
+![PHP Version](https://img.shields.io/packagist/dependency-v/softspring/crudl-bundle/php?style=flat-square)
+![Downloads](https://img.shields.io/packagist/dt/softspring/crudl-bundle?style=flat-square)
+[![CI](https://img.shields.io/github/actions/workflow/status/softspring/crudl-bundle/php.yml?branch=5.3&style=flat-square&label=CI)](https://github.com/softspring/crudl-bundle/actions/workflows/php.yml)
 
 ## License
 
