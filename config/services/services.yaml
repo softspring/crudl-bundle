@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Softspring\CrudlBundle\Form\DefaultFilterForm: ~
+
+    Softspring\CrudlBundle\CrudlListener\DefaultEventSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
+
+    sfs_crudl.controller_argument_resolver:
+        class: Softspring\CrudlBundle\ArgumentResolver\CrudlControllerArgumentResolver
+        arguments:
+            $container: '@service_container'
+        tags:
+            - { name: controller.argument_value_resolver, priority: 100 }

@@ -1,0 +1,47 @@
+{% extends '@SfsCrudl/layout.html.twig' %}
+
+{% block breadcrums_content %}
+    {{ parent() }}
+    {# <li class="breadcrumb-item"><a href="#">{{ 'admin.global_breadcrumb'|trans }}</a></li> #}
+{% endblock breadcrums_content %}
+
+{% block content %}
+    {{ dump(_crudl_action_config) }}
+    {#{{ dump() }}#}
+
+    {% embed '@SfsComponents/paginator/table.html.twig' with {'collection':entities, 'filter_form': filter_form, 'table_columns': table_columns, '_crudl_action_config': _crudl_action_config } only %}
+        {% block ths %}
+            {% for column_id, column_config in table_columns|default([]) %}
+            <th scope="col">
+                {% if column_config.sortable|default(false) %}<a href="{{ collection.sortToggleUrl(app.request, column_id) }}" class="text-dark">{% endif %}
+                    {{ column_config.label }}
+                {% if column_config.sortable|default(false) %}
+                        {% if collection.sortedBy('name', 'asc') %}<i class="bi bi-caret-up-fill"></i>{% elseif collection.sortedBy('name', 'desc') %}<i class="bi bi-caret-down-fill"></i>{% endif %}
+                    </a>
+                {% endif %}
+            </th>
+            {% endfor %}
+        {% endblock ths %}
+
+        {% block tbody %}
+            {% include _crudl_action_config.view_page %}
+        {% endblock tbody %}
+
+        {#        {% block empty %} #}
+        {#            {% if blocks_config|filter((blockConfig) => not blockConfig.static) is empty %} #}
+        {#                <div class="container-fluid bg-white p-4"> #}
+        {#                    <div class="p-5 m-5"> #}
+        {#                        <p class="text-center text-muted"> #}
+        {#                            {{ 'admin_blocks.list.no_blocks_configured.message'|trans }} #}
+        {#                        </p> #}
+        {#                        <p class="text-center text-muted"> #}
+        {#                            {{ 'admin_blocks.list.no_blocks_configured.link'|trans|raw }} #}
+        {#                        </p> #}
+        {#                    </div> #}
+        {#                </div> #}
+        {#            {% else %} #}
+        {#                {{ parent() }} #}
+        {#            {% endif %} #}
+        {#        {% endblock empty %} #}
+    {% endembed %}
+{% endblock content %}

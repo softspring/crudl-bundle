@@ -1,0 +1,14 @@
+{% extends '@SfsCrudl/layout.html.twig' %}
+
+{% block breadcrums_content %}
+    {{ parent() }}
+    {#<li class="breadcrumb-item"><a href="#">{{ 'admin.global_breadcrumb'|trans }}</a></li>#}
+{% endblock breadcrums_content %}
+
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    {{ form_widget(form) }}
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+{% endblock content %}

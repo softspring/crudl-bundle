@@ -1,0 +1,9 @@
+{% for item in collection %}
+    <tr>
+        {% for column_id, column_config in table_columns|default([]) %}
+            <td>
+                {{ attribute(item, column_id) }}
+            </td>
+        {% endfor %}
+    </tr>
+{% endfor %}
