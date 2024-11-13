@@ -10,7 +10,7 @@ class DefaultEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'sfs_crudl.default.list.view' => [['onListViewAddData', 0]],
+            'sfs_crudl.default.view.view' => [['onListViewAddData', 0]],
         ];
     }
 

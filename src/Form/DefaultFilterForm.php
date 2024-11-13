@@ -2,6 +2,7 @@
 
 namespace Softspring\CrudlBundle\Form;
 
+use Doctrine\ORM\EntityManagerInterface;
 use ReflectionProperty;
 use Softspring\Component\CrudlController\Manager\CrudlEntityManagerInterface;
 use Softspring\Component\DoctrinePaginator\Form\PaginatorForm;
@@ -12,6 +13,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DefaultFilterForm extends PaginatorForm
 {
+    public function __construct(EntityManagerInterface $em, protected ?CrudlEntityManagerInterface $manager = null)
+    {
+        parent::__construct($em);
+    }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -22,7 +28,7 @@ class DefaultFilterForm extends PaginatorForm
             // 'rpp_default_value' => 20,
             'order_valid_fields' => null,
             'order_default_value' => null,
-            'manager' => null,
+            'manager' => $this->manager,
             'filter_fields' => null,
         ]);
 
@@ -47,7 +53,7 @@ class DefaultFilterForm extends PaginatorForm
         parent::buildForm($builder, $options);
 
         foreach ($this->getFilterFields($options) as $field => $fieldConfig) {
-            $builder->add($field, $fieldConfig['type'] ?? TextType::class, $fieldConfig['type_options'] ?? []);
+            $builder->add($field, $fieldConfig['type'] ?? null, $fieldConfig['type_options'] ?? []);
         }
     }
 
