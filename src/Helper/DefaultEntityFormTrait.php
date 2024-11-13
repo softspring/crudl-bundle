@@ -14,10 +14,6 @@ trait DefaultEntityFormTrait
         $options = $formPrepareEvent->getFormOptions();
         $options['manager'] = $this->manager;
 
-        if (is_array($type)) {
-            $options['entity_fields'] = $type['entity_fields'] ?? null;
-        }
-
         $this->form = $this->formFactory->create(DefaultEntityForm::class, $data, $options);
 
         $this->form->handleRequest($this->request);

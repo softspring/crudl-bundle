@@ -9,6 +9,21 @@ use Symfony\Component\Form\FormInterface;
 
 class ListActionHelper extends BaseListActionHelper
 {
+    public function dispatchFormPrepare(array $options = null): FormPrepareEvent
+    {
+        if (null === $options) {
+            $options = [
+                'method' => 'GET',
+            ];
+
+            if (is_array($this->config['filter_form'])) {
+                $options = array_merge($options, $this->config['filter_form']);
+            }
+        }
+
+        return parent::dispatchFormPrepare($options);
+    }
+
     public function createFilterForm(FormPrepareEvent $formPrepareEvent): ?FormInterface
     {
         $type = $formPrepareEvent->getType();
@@ -19,16 +34,6 @@ class ListActionHelper extends BaseListActionHelper
 
         $formOptions = $formPrepareEvent->getFormOptions();
         $formOptions['manager'] = $this->manager;
-
-        if (is_array($type)) {
-            $formOptions['filter_fields'] = $type['filter_fields'] ?? null;
-            $formOptions['order_valid_fields'] = $type['order_valid_fields'] ?? null;
-            $formOptions['order_default_value'] = $type['order_default_value'] ?? null;
-
-            if (isset($type['order_direction_default_value'])) {
-                $formOptions['order_direction_default_value'] = $type['order_direction_default_value'];
-            }
-        }
 
         $this->filterForm = $this->formFactory->create(DefaultFilterForm::class, [], $formOptions);
 

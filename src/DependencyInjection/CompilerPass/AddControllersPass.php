@@ -19,14 +19,40 @@ class AddControllersPass implements CompilerPassInterface
         $controllers = $container->getParameter('sfs_crudl.controllers');
 
         foreach ($controllers as $controllerName => $controllerConfig) {
-            $controllerConfig = $this->fixEventsConfiguration($controllerConfig, $controllerName);
+            $controllerConfig = $this->fixConfiguration($controllerConfig, $controllerName);
             $this->addController($controllerName, $controllerConfig, $container);
         }
     }
 
-    protected function fixEventsConfiguration(array $controllerConfig, string $controllerName): array
+    protected function fixConfiguration(array $controllerConfig, string $controllerName): array
     {
         foreach ($controllerConfig['actions'] as $actionName => &$actionConfig) {
+            $actionProperties = match ($actionConfig['action']) {
+                'list' => Configuration::LIST_ACTION_CONFIG_KEYS,
+                'create' => Configuration::CREATE_ACTION_CONFIG_KEYS,
+                'update' => Configuration::UPDATE_ACTION_CONFIG_KEYS,
+                'transition' => Configuration::TRANSITION_ACTION_CONFIG_KEYS,
+                'read' => Configuration::READ_ACTION_CONFIG_KEYS,
+                'delete' => Configuration::DELETE_ACTION_CONFIG_KEYS,
+                'apply' => Configuration::APPLY_ACTION_CONFIG_KEYS,
+                default => [],
+            };
+
+            // if action supports view and view is not defined, try to set a default view
+            if (in_array('view', $actionProperties) && empty($actionConfig['view'])) {
+                // if controller has a default_view_path, use it
+                if (!empty($controllerConfig['default_view_path'])) {
+                    $actionConfig['view'] = "{$controllerConfig['default_view_path']}/$actionName.html.twig";
+                } else {
+                    // if not, use the default bundle view for this kind of action
+                    $actionConfig['view'] = "@SfsCrudl/crudl/{$actionConfig['action']}.html.twig";
+                }
+            }
+
+            if (in_array('entity_attribute', $actionProperties) && empty($actionConfig['entity_attribute']) && !empty($controllerConfig['default_entity_attribute'])) {
+                $actionConfig['entity_attribute'] = $controllerConfig['default_entity_attribute'];
+            }
+
             $actionEvents = match ($actionConfig['action']) {
                 'list' => Configuration::LIST_ACTION_EVENT_KEYS,
                 'create' => Configuration::CREATE_ACTION_EVENT_KEYS,

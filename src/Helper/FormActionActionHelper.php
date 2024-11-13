@@ -11,6 +11,21 @@ class FormActionActionHelper extends BaseFormActionActionHelper
 {
     use DefaultEntityFormTrait;
 
+    public function dispatchFormPrepare(array $options = null): FormPrepareEvent
+    {
+        if (null === $options) {
+            $options = [
+                'method' => 'POST',
+            ];
+
+            if (is_array($this->config['form'])) {
+                $options = array_merge($options, $this->config['form']);
+            }
+        }
+
+        return parent::dispatchFormPrepare($options);
+    }
+
     public function createForm(FormPrepareEvent $formPrepareEvent): FormInterface
     {
         $type = $formPrepareEvent->getType();
