@@ -11,7 +11,7 @@ class FormActionActionHelper extends BaseFormActionActionHelper
 {
     use DefaultEntityFormTrait;
 
-    public function dispatchFormPrepare(array $options = null): FormPrepareEvent
+    public function dispatchFormPrepare(?array $options = null): FormPrepareEvent
     {
         if (null === $options) {
             $options = [

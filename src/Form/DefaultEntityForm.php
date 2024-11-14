@@ -14,7 +14,6 @@ class DefaultEntityForm extends AbstractType
 {
     public function __construct(protected EntityManagerInterface $em, protected TypeResolverInterface $typeResolver, protected ?CrudlEntityManagerInterface $manager = null)
     {
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -58,7 +57,7 @@ class DefaultEntityForm extends AbstractType
             $fieldMapping = $entityMetadata->getFieldMapping($fieldName);
 
             // skip not public fields without setter
-            if (!$entityReflectionClass->getProperty($fieldName)->isPublic() && !$entityReflectionClass->hasMethod('set' . ucfirst($fieldName))) {
+            if (!$entityReflectionClass->getProperty($fieldName)->isPublic() && !$entityReflectionClass->hasMethod('set'.ucfirst($fieldName))) {
                 continue;
             }
 
@@ -84,7 +83,7 @@ class DefaultEntityForm extends AbstractType
             switch ($associationMapping['type']) {
                 case 1: // one to one
                     // skip not public fields without setter
-                    if (!$entityReflectionClass->getProperty($associationName)->isPublic() && !$entityReflectionClass->hasMethod('set' . ucfirst($associationName))) {
+                    if (!$entityReflectionClass->getProperty($associationName)->isPublic() && !$entityReflectionClass->hasMethod('set'.ucfirst($associationName))) {
                         break;
                     }
                     $entityFields[$associationName] = [
@@ -100,10 +99,10 @@ class DefaultEntityForm extends AbstractType
             }
         }
 
-//        $entityFields['save'] = [
-//            'type' => SubmitType::class,
-//            'type_options' => [],
-//        ];
+        //        $entityFields['save'] = [
+        //            'type' => SubmitType::class,
+        //            'type_options' => [],
+        //        ];
 
         return $entityFields;
     }

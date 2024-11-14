@@ -101,7 +101,7 @@ class AddControllersPass implements CompilerPassInterface
         // if any config starts with @ and is a defined service, replace it with a reference
         foreach ($config['actions'] as $action => &$actionConfig) {
             foreach ($actionConfig as $key => &$value) {
-                if (is_string($value) && strpos($value, '@') === 0) {
+                if (is_string($value) && 0 === strpos($value, '@')) {
                     if ($container->hasDefinition(substr($value, 1))) {
                         $value = new Reference(substr($value, 1));
                     }

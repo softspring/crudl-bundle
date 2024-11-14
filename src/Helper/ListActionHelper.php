@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormInterface;
 
 class ListActionHelper extends BaseListActionHelper
 {
-    public function dispatchFormPrepare(array $options = null): FormPrepareEvent
+    public function dispatchFormPrepare(?array $options = null): FormPrepareEvent
     {
         if (null === $options) {
             $options = [

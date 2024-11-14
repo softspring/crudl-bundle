@@ -25,5 +25,4 @@ class TransitionActionHelper extends BaseTransitionActionHelper
 
         return $this->createDefaultEntityForm($formPrepareEvent, $type);
     }
-
 }
