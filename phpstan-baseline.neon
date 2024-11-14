@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot access property \\$type on array<string, array<string, mixed>\\|bool\\|int\\|string>.$#"
+			count: 1
+			path: src/Form/DefaultEntityForm.php
+			reportUnmatched: false
