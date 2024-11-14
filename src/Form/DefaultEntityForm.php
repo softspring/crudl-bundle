@@ -4,15 +4,15 @@ namespace Softspring\CrudlBundle\Form;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Softspring\Component\CrudlController\Manager\CrudlEntityManagerInterface;
+use Softspring\Component\DynamicFormType\Form\Resolver\TypeResolverInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DefaultEntityForm extends AbstractType
 {
-    public function __construct(protected EntityManagerInterface $em, protected ?CrudlEntityManagerInterface $manager = null)
+    public function __construct(protected EntityManagerInterface $em, protected TypeResolverInterface $typeResolver, protected ?CrudlEntityManagerInterface $manager = null)
     {
 
     }
@@ -35,7 +35,7 @@ class DefaultEntityForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         foreach ($this->getEntityFields($options) as $field => $fieldConfig) {
-            $builder->add($field, $fieldConfig['type'] ?? null, $fieldConfig['type_options'] ?? []);
+            $builder->add($field, $this->typeResolver->resolveTypeClass($fieldConfig['type'] ?? null), $fieldConfig['type_options'] ?? []);
         }
     }
 
