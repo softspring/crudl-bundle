@@ -10,8 +10,8 @@
         "softspring/components": "^6.0@dev",
         "softspring/crudl-controller": "^6.0@dev",
         "softspring/dynamic-form-type": "^6.0@dev",
-        "symfony/http-kernel": "^6.2|^7.0",
-        "symfony/dependency-injection": "^6.2|^7.0"
+        "symfony/http-kernel": "^6.4|^7.3",
+        "symfony/dependency-injection": "^6.4|^7.3"
     },
     "require-dev": {
         "doctrine/orm": "^2.5 | ^3.0",
