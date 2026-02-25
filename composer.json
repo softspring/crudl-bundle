@@ -19,7 +19,8 @@
         "phpmd/phpmd": "dev-master",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^12.0",
-        "rector/rector": "^2.2"
+        "rector/rector": "^2.2",
+        "ergebnis/composer-normalize": "^2.50"
     },
     "autoload": {
         "psr-4": {
@@ -30,5 +31,35 @@
         "psr-4": {
             "Softspring\\CrudlBundle\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        }
+    },
+    "scripts": {
+        "fix": [
+            "vendor/bin/rector process src tests",
+            "vendor/bin/php-cs-fixer fix --diff",
+            "composer normalize"
+        ],
+        "run-tests" : [
+            "composer validate --strict --no-check-lock --ansi",
+            "XDEBUG_MODE=coverage vendor/bin/phpunit",
+            "vendor/bin/rector process src tests --dry-run",
+            "vendor/bin/phpstan analyse src tests --level 5",
+            "vendor/bin/php-cs-fixer fix --dry-run --diff",
+            "vendor/bin/yaml-lint .github/ -vvv --parse-tags",
+            "vendor/bin/yaml-lint config/ -vvv --parse-tags",
+            "vendor/bin/yaml-lint translations/ -vvv --parse-tags"
+        ],
+        "test": [
+            "composer update --no-scripts --ansi",
+            "@run-tests"
+        ],
+        "test-bc": [
+            "composer update --no-scripts --ansi --prefer-lowest --prefer-stable",
+            "@run-tests"
+        ]
     }
 }
