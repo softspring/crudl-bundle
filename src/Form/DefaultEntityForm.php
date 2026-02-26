@@ -26,7 +26,7 @@ class DefaultEntityForm extends AbstractType
         $resolver->setRequired('manager');
         $resolver->addAllowedTypes('manager', CrudlEntityManagerInterface::class);
 
-        $resolver->setNormalizer('data_class', function ($options, $value) {
+        $resolver->setNormalizer('data_class', function (array $options, $value) {
             return $value ?: $options['manager']->getEntityClass();
         });
     }
@@ -61,7 +61,7 @@ class DefaultEntityForm extends AbstractType
                 continue;
             }
 
-            switch ($fieldMapping->type) {
+            switch ($fieldMapping->type ?? null) {
                 case 'string':
                     $entityFields[$fieldName] = [
                         'type' => TextType::class,

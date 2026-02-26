@@ -18,7 +18,8 @@
         "phpmd/phpmd": "dev-master",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^12.5",
-        "rector/rector": "^2.3"
+        "rector/rector": "^2.3",
+        "symfony/yaml": "^6.4 || ^7.4 || ^8.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -55,8 +56,7 @@
             "vendor/bin/phpstan analyse src tests --level 5",
             "vendor/bin/php-cs-fixer fix --dry-run --diff",
             "vendor/bin/yaml-lint .github/ -vvv --parse-tags",
-            "vendor/bin/yaml-lint config/ -vvv --parse-tags",
-            "vendor/bin/yaml-lint translations/ -vvv --parse-tags"
+            "vendor/bin/yaml-lint config/ -vvv --parse-tags"
         ],
         "test": [
             "composer update --no-scripts --ansi",

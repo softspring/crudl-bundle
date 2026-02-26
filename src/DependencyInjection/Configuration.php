@@ -214,7 +214,7 @@ class Configuration implements ConfigurationInterface
                                             $actionType = $actionConfig['action'];
 
                                             // FILTER KEYS BY ACTION (not all keys are valid for all actions)
-                                            $actionConfig = array_filter($actionConfig, function ($configKey) use ($actionType) {
+                                            $actionConfig = array_filter($actionConfig, function ($configKey) use ($actionType): bool {
                                                 return match ($actionType) {
                                                     'list' => in_array($configKey, self::LIST_ACTION_CONFIG_KEYS + self::LIST_ACTION_EVENT_KEYS),
                                                     'create' => in_array($configKey, self::CREATE_ACTION_CONFIG_KEYS + self::CREATE_ACTION_EVENT_KEYS),
@@ -240,21 +240,14 @@ class Configuration implements ConfigurationInterface
                                                     break;
 
                                                 case 'create':
+                                                case 'update':
                                                     // create action, uses default entity form
                                                     if (empty($actionConfig['form'])) {
                                                         $actionConfig['form'] = DefaultEntityForm::class;
                                                     }
                                                     break;
-
                                                 case 'read':
                                                     // no default read options
-                                                    break;
-
-                                                case 'update':
-                                                    // update action, uses default entity form
-                                                    if (empty($actionConfig['form'])) {
-                                                        $actionConfig['form'] = DefaultEntityForm::class;
-                                                    }
                                                     break;
 
                                                 case 'transition':

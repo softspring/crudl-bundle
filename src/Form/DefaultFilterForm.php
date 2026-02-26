@@ -36,15 +36,15 @@ class DefaultFilterForm extends PaginatorForm
         $resolver->setRequired('manager');
         $resolver->addAllowedTypes('manager', CrudlEntityManagerInterface::class);
 
-        $resolver->setNormalizer('class', function ($options, $value) {
+        $resolver->setNormalizer('class', function (array $options, $value) {
             return $value ?: $options['manager']->getEntityClass();
         });
 
-        $resolver->setNormalizer('order_valid_fields', function ($options, $value) {
-            return $value ?: array_map(fn (ReflectionProperty $property) => $property->getName(), $options['manager']->getEntityClassReflection()->getProperties());
+        $resolver->setNormalizer('order_valid_fields', function (array $options, $value) {
+            return $value ?: array_map(fn (ReflectionProperty $property): string => $property->getName(), $options['manager']->getEntityClassReflection()->getProperties());
         });
 
-        $resolver->setNormalizer('order_default_value', function ($options, $value) {
+        $resolver->setNormalizer('order_default_value', function (array $options, $value) {
             return $value ?: $options['order_valid_fields'][0];
         });
     }
