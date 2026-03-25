@@ -59,9 +59,9 @@ jobs:
             -   name: Run phpstan
                 run: ./vendor/bin/phpstan analyse
 
-#            -   name: phpunit-coverage-badge
-#                uses: timkrase/phpunit-coverage-badge@v1.2.0
-#                with:
-#                    push_badge: true
-#                    coverage_badge_path: .github/badges/coverage.svg
-#                    repo_token: ${{ secrets.GITHUB_TOKEN }}
+            -   name: phpunit-coverage-badge
+                uses: timkrase/phpunit-coverage-badge@v1.2.1
+                with:
+                    push_badge: true
+                    coverage_badge_path: .github/badges/coverage.svg
+                    repo_token: ${{ secrets.GITHUB_TOKEN }}
