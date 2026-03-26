@@ -1,16 +1,22 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()
+declare(strict_types=1);
+
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
+$finder = Finder::create()
     ->in('src')
-    ->exclude('vendor')
+    ->in('tests')
 ;
 
-$config = new PhpCsFixer\Config();
-    return $config->setRules([
+$config = new Config();
+
+return $config->setRules([
         '@Symfony' => true,
         'full_opening_tag' => false,
         'phpdoc_separation' => false,
-        'global_namespace_import' => ['import_classes' => true]
+        'global_namespace_import' => ['import_classes' => true],
     ])
     ->setFinder($finder)
 ;

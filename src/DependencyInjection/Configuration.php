@@ -216,13 +216,13 @@ class Configuration implements ConfigurationInterface
                                             // FILTER KEYS BY ACTION (not all keys are valid for all actions)
                                             $actionConfig = array_filter($actionConfig, function ($configKey) use ($actionType): bool {
                                                 return match ($actionType) {
-                                                    'list' => in_array($configKey, self::LIST_ACTION_CONFIG_KEYS + self::LIST_ACTION_EVENT_KEYS),
-                                                    'create' => in_array($configKey, self::CREATE_ACTION_CONFIG_KEYS + self::CREATE_ACTION_EVENT_KEYS),
-                                                    'update' => in_array($configKey, self::UPDATE_ACTION_CONFIG_KEYS + self::UPDATE_ACTION_EVENT_KEYS),
-                                                    'transition' => in_array($configKey, self::TRANSITION_ACTION_CONFIG_KEYS + self::TRANSITION_ACTION_EVENT_KEYS),
-                                                    'read' => in_array($configKey, self::READ_ACTION_CONFIG_KEYS + self::READ_ACTION_EVENT_KEYS),
-                                                    'delete' => in_array($configKey, self::DELETE_ACTION_CONFIG_KEYS + self::DELETE_ACTION_EVENT_KEYS),
-                                                    'apply' => in_array($configKey, self::APPLY_ACTION_CONFIG_KEYS + self::APPLY_ACTION_EVENT_KEYS),
+                                                    'list' => in_array($configKey, array_merge(self::LIST_ACTION_CONFIG_KEYS, self::LIST_ACTION_EVENT_KEYS), true),
+                                                    'create' => in_array($configKey, array_merge(self::CREATE_ACTION_CONFIG_KEYS, self::CREATE_ACTION_EVENT_KEYS), true),
+                                                    'update' => in_array($configKey, array_merge(self::UPDATE_ACTION_CONFIG_KEYS, self::UPDATE_ACTION_EVENT_KEYS), true),
+                                                    'transition' => in_array($configKey, array_merge(self::TRANSITION_ACTION_CONFIG_KEYS, self::TRANSITION_ACTION_EVENT_KEYS), true),
+                                                    'read' => in_array($configKey, array_merge(self::READ_ACTION_CONFIG_KEYS, self::READ_ACTION_EVENT_KEYS), true),
+                                                    'delete' => in_array($configKey, array_merge(self::DELETE_ACTION_CONFIG_KEYS, self::DELETE_ACTION_EVENT_KEYS), true),
+                                                    'apply' => in_array($configKey, array_merge(self::APPLY_ACTION_CONFIG_KEYS, self::APPLY_ACTION_EVENT_KEYS), true),
                                                     default => false,
                                                 };
                                             }, ARRAY_FILTER_USE_KEY);
@@ -291,6 +291,8 @@ class Configuration implements ConfigurationInterface
                                         ->scalarNode('success_redirect_to')->end()
                                         ->scalarNode('param_converter_key')->end()
                                         ->scalarNode('entity_attribute')->end()
+                                        ->scalarNode('transition_attribute')->end()
+                                        ->scalarNode('workflow_name')->end()
 
                                         // all events
                                         ->scalarNode('initialize_event_name')->end()

@@ -6,8 +6,7 @@
 {% endblock breadcrums_content %}
 
 {% block content %}
-    {{ dump(_crudl_action_config) }}
-    {#{{ dump() }}#}
+    {#{{ dump(_crudl_action_config) }}#}
 
     {% embed '@SfsComponents/paginator/table.html.twig' with {'collection':entities, 'filter_form': filter_form, 'table_columns': table_columns, '_crudl_action_config': _crudl_action_config } only %}
         {% block ths %}
@@ -16,7 +15,7 @@
                 {% if column_config.sortable|default(false) %}<a href="{{ collection.sortToggleUrl(app.request, column_id) }}" class="text-dark">{% endif %}
                     {{ column_config.label }}
                 {% if column_config.sortable|default(false) %}
-                        {% if collection.sortedBy('name', 'asc') %}<i class="bi bi-caret-up-fill"></i>{% elseif collection.sortedBy('name', 'desc') %}<i class="bi bi-caret-down-fill"></i>{% endif %}
+                        {% if collection.sortedBy(column_id, 'asc') %}<i class="bi bi-caret-up-fill"></i>{% elseif collection.sortedBy(column_id, 'desc') %}<i class="bi bi-caret-down-fill"></i>{% endif %}
                     </a>
                 {% endif %}
             </th>

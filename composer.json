@@ -5,17 +5,18 @@
     "type": "symfony-bundle",
     "require": {
         "php": ">=8.4",
+        "doctrine/orm": "^2.10 || ^3.0 || ^4.0",
         "softspring/components": "^6.0@dev",
         "softspring/crudl-controller": "^6.0@dev",
         "softspring/dynamic-form-type": "^6.0@dev",
+        "symfony/config": "^6.4 || ^7.4 || ^8.0",
         "symfony/dependency-injection": "^6.4 || ^7.4 || ^8.0",
+        "symfony/form": "^6.4 || ^7.4 || ^8.0",
         "symfony/http-kernel": "^6.4 || ^7.4 || ^8.0"
     },
     "require-dev": {
-        "doctrine/orm": "^2.10 || ^3.0 || ^4.0",
         "ergebnis/composer-normalize": "^2.50",
         "friendsofphp/php-cs-fixer": "^3.94",
-        "phpmd/phpmd": "dev-master",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^12.5",
         "rector/rector": "^2.3",
@@ -46,7 +47,7 @@
     "scripts": {
         "fix": [
             "vendor/bin/rector process src tests",
-            "vendor/bin/php-cs-fixer fix",
+            "vendor/bin/php-cs-fixer fix --sequential",
             "composer normalize"
         ],
         "run-tests": [
@@ -54,7 +55,7 @@
             "XDEBUG_MODE=coverage vendor/bin/phpunit",
             "vendor/bin/rector process src tests --dry-run",
             "vendor/bin/phpstan analyse src tests --level 5",
-            "vendor/bin/php-cs-fixer fix --dry-run --diff",
+            "vendor/bin/php-cs-fixer fix --dry-run --diff --sequential",
             "vendor/bin/yaml-lint .github/ -vvv --parse-tags",
             "vendor/bin/yaml-lint config/ -vvv --parse-tags"
         ],
