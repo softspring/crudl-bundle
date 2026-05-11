@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Softspring\CrudlBundle\Helper;
 
 use Softspring\Component\CrudlController\Event\FormPrepareEvent;
