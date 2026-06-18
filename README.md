@@ -6,7 +6,7 @@
 [![PHP Version](https://img.shields.io/packagist/dependency-v/softspring/crudl-bundle/php?style=flat-square)](https://github.com/softspring/crudl-bundle/blob/6.0/composer.json)
 [![Downloads](https://img.shields.io/packagist/dt/softspring/crudl-bundle?style=flat-square)](https://packagist.org/packages/softspring/crudl-bundle)
 [![CI](https://img.shields.io/github/actions/workflow/status/softspring/crudl-bundle/ci.yml?branch=6.0&style=flat-square&label=CI)](https://github.com/softspring/crudl-bundle/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/codecov/c/github/softspring/crudl-bundle?branch=6.0&style=flat-square)](https://codecov.io/gh/softspring/crudl-bundle)
+[![Coverage](https://img.shields.io/codecov/c/github/softspring/crudl-bundle?branch=6.0&style=flat-square)](https://app.codecov.io/gh/softspring/crudl-bundle/tree/6.0)
 
 Symfony integration for `softspring/crudl-controller`, with configuration-driven controller services, default forms, and default CRUDL templates.
 
