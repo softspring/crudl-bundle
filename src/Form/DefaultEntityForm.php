@@ -8,6 +8,7 @@ use Softspring\Component\DynamicFormType\Form\Resolver\TypeResolverInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DefaultEntityForm extends AbstractType
@@ -26,7 +27,7 @@ class DefaultEntityForm extends AbstractType
         $resolver->setRequired('manager');
         $resolver->addAllowedTypes('manager', CrudlEntityManagerInterface::class);
 
-        $resolver->setNormalizer('data_class', function (array $options, $value) {
+        $resolver->setNormalizer('data_class', function (Options $options, $value) {
             return $value ?: $options['manager']->getEntityClass();
         });
     }
@@ -61,7 +62,7 @@ class DefaultEntityForm extends AbstractType
                 continue;
             }
 
-            switch ($fieldMapping->type ?? null) {
+            switch ($this->getMappingValue($fieldMapping, 'type')) {
                 case 'string':
                     $entityFields[$fieldName] = [
                         'type' => TextType::class,
@@ -80,7 +81,7 @@ class DefaultEntityForm extends AbstractType
         foreach ($entityMetadata->getAssociationNames() as $associationName) {
             $associationMapping = $entityMetadata->getAssociationMapping($associationName);
 
-            switch ($associationMapping['type']) {
+            switch ($this->getMappingValue($associationMapping, 'type')) {
                 case 1: // one to one
                     // skip not public fields without setter
                     if (!$entityReflectionClass->getProperty($associationName)->isPublic() && !$entityReflectionClass->hasMethod('set'.ucfirst($associationName))) {
@@ -105,5 +106,24 @@ class DefaultEntityForm extends AbstractType
         //        ];
 
         return $entityFields;
+    }
+
+    protected function getMappingValue(object|array $mapping, string $key): mixed
+    {
+        if (is_array($mapping)) {
+            return $mapping[$key] ?? null;
+        }
+
+        if ('type' === $key) {
+            if (is_a($mapping, 'Doctrine\ORM\Mapping\OneToOneAssociationMapping')) {
+                return 1;
+            }
+
+            if (is_a($mapping, 'Doctrine\ORM\Mapping\ManyToOneAssociationMapping')) {
+                return 2;
+            }
+        }
+
+        return $mapping->{$key} ?? null;
     }
 }

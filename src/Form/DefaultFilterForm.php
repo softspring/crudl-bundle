@@ -10,6 +10,7 @@ use Softspring\Component\DynamicFormType\Form\Resolver\TypeResolverInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DefaultFilterForm extends PaginatorForm
@@ -36,15 +37,15 @@ class DefaultFilterForm extends PaginatorForm
         $resolver->setRequired('manager');
         $resolver->addAllowedTypes('manager', CrudlEntityManagerInterface::class);
 
-        $resolver->setNormalizer('class', function (array $options, $value) {
+        $resolver->setNormalizer('class', function (Options $options, $value) {
             return $value ?: $options['manager']->getEntityClass();
         });
 
-        $resolver->setNormalizer('order_valid_fields', function (array $options, $value) {
+        $resolver->setNormalizer('order_valid_fields', function (Options $options, $value) {
             return $value ?: array_map(fn (ReflectionProperty $property): string => $property->getName(), $options['manager']->getEntityClassReflection()->getProperties());
         });
 
-        $resolver->setNormalizer('order_default_value', function (array $options, $value) {
+        $resolver->setNormalizer('order_default_value', function (Options $options, $value) {
             return $value ?: $options['order_valid_fields'][0];
         });
     }

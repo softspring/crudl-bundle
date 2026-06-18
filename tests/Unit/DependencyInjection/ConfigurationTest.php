@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Softspring\CrudlBundle\Tests\DependencyInjection;
+namespace Softspring\CrudlBundle\Tests\Unit\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use Softspring\CrudlBundle\DependencyInjection\Configuration;

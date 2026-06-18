@@ -5,8 +5,11 @@
          colors="true"
          cacheDirectory=".phpunit.cache">
     <testsuites>
-        <testsuite name="SfsCrudlBundle test suite">
-            <directory suffix="Test.php">./tests</directory>
+        <testsuite name="Unit test suite">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration test suite">
+            <directory suffix="Test.php">./tests/Integration</directory>
         </testsuite>
     </testsuites>
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Softspring\CrudlBundle\Tests\ArgumentResolver;
+namespace Softspring\CrudlBundle\Tests\Unit\ArgumentResolver;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -16,7 +16,7 @@ final class CrudlControllerArgumentResolverTest extends TestCase
     public function testResolvesRequestForDynamicCrudlActionMethods(): void
     {
         $controller = $this->createStub(CrudlController::class);
-        $container = $this->createStub(ContainerInterface::class);
+        $container = $this->createMock(ContainerInterface::class);
         $container->method('has')->with('crudl.controller')->willReturn(true);
         $container->method('get')->with('crudl.controller')->willReturn($controller);
 
@@ -33,7 +33,7 @@ final class CrudlControllerArgumentResolverTest extends TestCase
     public function testSkipsRealControllerMethods(): void
     {
         $controller = $this->createStub(CrudlController::class);
-        $container = $this->createStub(ContainerInterface::class);
+        $container = $this->createMock(ContainerInterface::class);
         $container->method('has')->with('crudl.controller')->willReturn(true);
         $container->method('get')->with('crudl.controller')->willReturn($controller);
 
